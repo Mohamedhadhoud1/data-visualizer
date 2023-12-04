@@ -46,6 +46,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
+import { ClientContext } from "../../components/clientContext";
 
 declare module "@tanstack/table-core" {
   interface FilterFns {
@@ -82,8 +83,76 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   // Provide an alphanumeric fallback for when the item ranks are equal
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
-
+const tempData: Person[] = [
+  {
+    Name: "BARILLE Mathilde",
+    Mail: "mathilde.barille@gmail.com",
+    Montantdevente: "1,635.00 €",
+    Formation: "CREATION D'ENTREPRISE",
+    Datededebut: "11/10/2023",
+    Datedefin: "25/10/2023",
+    Formationaffectée: "OUI",
+    LIENDIGIFORMA: "https://app.digiforma.com/r/z6Wp59SO",
+    Seller: "Marie",
+  },
+  {
+    Name: "MUZEAU David",
+    Mail: "david.com8@orange.fr",
+    Montantdevente: "2,990.00 €",
+    Formation: "CREATION D'ENTREPRISE",
+    Datededebut: "11/10/2023",
+    Datedefin: "25/10/2023",
+    Formationaffectée: "OUI",
+    LIENDIGIFORMA: "https://app.digiforma.com/r/FptzxYas",
+    Seller: "Wissam",
+  },
+  {
+    Name: "BOLLIET Amelie",
+    Mail: "meli-de-bereziat@hotmail.fr",
+    Montantdevente: "2,838.00 €",
+    Formation: "CREATION D'ENTREPRISE",
+    Datededebut: "11/10/2023",
+    Datedefin: "25/10/2023",
+    Formationaffectée: "OUI",
+    LIENDIGIFORMA: "https://app.digiforma.com/r/oLVMsfsF",
+    Seller: "Wissam",
+  },
+  {
+    Name: "FERNANDES Jennifer",
+    Mail: "jenniferdu69-xx@hotmail.fr",
+    Montantdevente: "3,200.00 €",
+    Formation: "CREATION D'ENTREPRISE",
+    Datededebut: "11/10/2023",
+    Datedefin: "25/10/2023",
+    Formationaffectée: "OUI",
+    LIENDIGIFORMA: "https://app.digiforma.com/r/15U7NeNY",
+    Seller: "Amine",
+  },
+  {
+    Name: "YAHYAOUI Mohamed",
+    Mail: "Mohamed.yahyaoui50@outlook.fr",
+    Montantdevente: "2,393.00 €",
+    Formation: "CREATION D'ENTREPRISE",
+    Datededebut: "11/10/2023",
+    Datedefin: "25/10/2023",
+    Formationaffectée: "OUI",
+    LIENDIGIFORMA: "https://app.digiforma.com/r/8He6VIVb",
+    Seller: "Kams",
+  },
+  {
+    Name: "BACHIR Ridwane",
+    Mail: "Ridwane69310@icloud.com",
+    Montantdevente: "3,200.00 €",
+    Formation: "CREATION D'ENTREPRISE",
+    Datededebut: "11/10/2023",
+    Datedefin: "25/10/2023",
+    Formationaffectée: "OUI",
+    LIENDIGIFORMA: "https://app.digiforma.com/r/80Lislhu",
+    Seller: "Amine",
+  },
+];
 export function DataTable() {
+  const { setClient } = React.useContext(ClientContext);
   const rerender = React.useReducer(() => ({}), {})[1];
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -94,70 +163,41 @@ export function DataTable() {
   const columns = React.useMemo<ColumnDef<Person, any>[]>(
     () => [
       {
+        accessorKey: "Name",
+        id: "Nom du titulaire",
         header: "Name",
+        cell: (info) => info.getValue(),
         footer: (props) => props.column.id,
-        columns: [
-          {
-            accessorKey: "firstName",
-            cell: (info) => info.getValue(),
-            footer: (props) => props.column.id,
-          },
-          {
-            accessorFn: (row) => row.lastName,
-            id: "lastName",
-            cell: (info) => info.getValue(),
-            header: () => <span>Last Name</span>,
-            footer: (props) => props.column.id,
-          },
-          {
-            accessorFn: (row) => `${row.firstName} ${row.lastName}`,
-            id: "fullName",
-            header: "Full Name",
-            cell: (info) => info.getValue(),
-            footer: (props) => props.column.id,
-            filterFn: "fuzzy",
-            sortingFn: fuzzySort,
-          },
-        ],
+        filterFn: "fuzzy",
+        sortingFn: fuzzySort,
       },
       {
-        header: "Info",
+        accessorKey: "LIENDIGIFORMA",
+        header: () => "LIEN DIGIFORMA",
         footer: (props) => props.column.id,
-        columns: [
-          {
-            accessorKey: "age",
-            header: () => "Age",
-            footer: (props) => props.column.id,
-          },
-          {
-            header: "More Info",
-            columns: [
-              {
-                accessorKey: "visits",
-                header: () => <span>Visits</span>,
-                footer: (props) => props.column.id,
-              },
-              {
-                accessorKey: "status",
-                header: "Status",
-                footer: (props) => props.column.id,
-              },
-              {
-                accessorKey: "progress",
-                header: "Profile Progress",
-                footer: (props) => props.column.id,
-              },
-            ],
-          },
-        ],
+      },
+      {
+        accessorKey: "Montantdevente",
+        header: () => <span>Montant de vente</span>,
+        footer: (props) => props.column.id,
+      },
+      {
+        accessorKey: "Datededebut",
+        header: "Date de debut",
+        footer: (props) => props.column.id,
+      },
+      {
+        accessorKey: "Datedefin",
+        header: "Date de fin",
+        footer: (props) => props.column.id,
       },
     ],
     []
   );
 
-  const [data, setData] = React.useState<Person[]>(() => makeData(5000));
+  const [data, setData] = React.useState<Person[]>(tempData);
   const refreshData = () => setData((old) => makeData(50000));
-
+console.log(data);
   const table = useReactTable({
     data,
     columns,
@@ -191,6 +231,10 @@ export function DataTable() {
     }
   }, [table.getState().columnFilters[0]?.id]);
 
+  React.useEffect(()=>{
+    table.setPageSize(5);
+       setClient(tempData[0]);
+  },[])
   return (
     <div className="w-11/12 sm:w-4/5 mx-auto">
       <div className="rounded-md border">
@@ -236,7 +280,7 @@ export function DataTable() {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} className="cursor-pointer" onClick={()=>{setClient(row.original)}}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(

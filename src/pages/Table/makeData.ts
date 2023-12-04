@@ -1,10 +1,13 @@
 export type Person = {
-  firstName: string
-  lastName: string
-  age: number
-  visits: number
-  progress: number
-  status: 'relationship' | 'complicated' | 'single'
+  Name: string
+  Mail: string
+  Montantdevente: string
+  Datededebut: string
+  Datedefin: string 
+  Formation: string
+Formationaffectée: string
+LIENDIGIFORMA: string
+Seller: string,
   subRows?: Person[]
 }
 
@@ -16,19 +19,17 @@ const range = (len: number) => {
   return arr
 }
 
-const status: Array<string> =[
-      'relationship',
-      'complicated',
-      'single',
-    ]
-const newPerson = (): Person => {
+const Data = (): Person => {
   return {
-    firstName:'Ahmed',
-    lastName: 'Lotfy',
-    age: 22,
-    visits: 995,
-    progress: 99,
-    status:status[Math.floor(Math.random() * status.length)] as Person['status'],
+    Name: "BARILLE Mathilde",
+    Mail: "mathilde.barille@gmail.com",
+    Montantdevente: "1,635.00 €",
+    Formation: "CREATION D'ENTREPRISE",
+    Datededebut: "11/10/2023",
+     Datedefin: "25/10/2023",
+    Formationaffectée: "OUI",
+    LIENDIGIFORMA: "https://app.digiforma.com/r/z6Wp59SO",
+    Seller: "Marie",
   }
 }
 
@@ -37,7 +38,7 @@ export function makeData(...lens: number[]) {
     const len = lens[depth]!
     return range(len).map((d): Person => {
       return {
-        ...newPerson(),
+        ...Data(),
         subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
       }
     })

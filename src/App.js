@@ -9,11 +9,13 @@ import Home from "./pages/Home.tsx";
 import Navbar from "./components/navbar.tsx";
 // import Footer from "./components/Footer.tsx";
 import "./index.css";
-import React from 'react';
+import React, { useState } from 'react';
 import NotFound from "./pages/NotFound.tsx";
 import { ThemeProvider } from "./components/theme-provider.tsx";
-
-
+import { ClientsTable } from "./pages/table";
+import  Client  from "./pages/client";
+import {Sitting} from "./pages/sitting";
+import { ClientContext } from "./components/clientContext.ts";
 const Layout = () => {
    return (
     <>
@@ -35,6 +37,18 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+      {
+        path: "/table",
+        element: <ClientsTable />,
+      },
+      {
+        path: "/clients",
+        element: <Client />,
+      },
+      {
+        path: "/sitting",
+        element: <Sitting />,
+      },
     ],
     errorElement: <NotFound />,
   },
@@ -49,10 +63,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
- 
+ const [client, setClient] = useState();
   return (
     <ThemeProvider>
-      <RouterProvider router={router} />
+      <ClientContext.Provider value={{ client, setClient }}>
+        <RouterProvider router={router} />
+      </ClientContext.Provider>
     </ThemeProvider>
   );
 }
