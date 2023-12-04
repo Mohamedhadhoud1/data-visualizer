@@ -132,16 +132,29 @@ function NavBar() {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link to="/sitting">Profile</Link>
+                <Link to="/sitting" className="w-full">
+                  Profile
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link to="/">Page d'accueil</Link>
+                <Link to="/" className="w-full">
+                  Page d'accueil
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link to="/table">Tableau de Bord</Link>
+                <Link to="/table" className="w-full">
+                  Tableau de Bord
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link to="/clients">Client</Link>
+                <Link to="/clients" className="w-full">
+                  Client
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link to="/login" className="w-full">
+                  Log Out
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

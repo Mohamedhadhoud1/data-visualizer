@@ -3,14 +3,14 @@ import {
   RouterProvider,
   Outlet,
 } from "react-router-dom";
-import Register from "./pages/Register.tsx";
-import Login from "./pages/Login.tsx";
+import {Register} from "./pages/Register.tsx";
+import {Login} from "./pages/Login.tsx";
 import Home from "./pages/Home.tsx";
 import Navbar from "./components/navbar.tsx";
 // import Footer from "./components/Footer.tsx";
 import "./index.css";
 import React, { useState } from 'react';
-import NotFound from "./pages/NotFound.tsx";
+import NotFound from "./pages/404/NotFound";
 import { ThemeProvider } from "./components/theme-provider.tsx";
 import { ClientsTable } from "./pages/table";
 import  Client  from "./pages/client";
