@@ -21,22 +21,20 @@ import { ModeToggle } from "../components/mode-toggle";
 
 const FormSchema = z.object({
   FirstName: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: "First Name must be at least 2 characters.",
   }),
   LastName: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: "Last Name must be at least 2 characters.",
   }),
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-  email: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  email: z.string().email("This is not a valid email."),
+  password: z.string().min(8, {
+    message: "password must be at least 8 characters.",
   }),
-  password: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  RepeatPassword: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  RepeatPassword: z.string().min(8, {
+    message: "repeated password must be at least 8 characters.",
   }),
 });
 

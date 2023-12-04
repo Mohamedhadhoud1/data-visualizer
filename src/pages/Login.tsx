@@ -23,6 +23,9 @@ const FormSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
+  password: z.string().min(8, {
+    message: "password must be at least 8 characters.",
+  }),
 });
 
 export function Login() {
@@ -31,6 +34,7 @@ export function Login() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       username: "",
+      password:""
     },
   });
 
@@ -61,7 +65,7 @@ export function Login() {
         >
           <FormField
             control={form.control}
-            name="username"
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Username</FormLabel>
