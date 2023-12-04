@@ -65,7 +65,7 @@ export function Login() {
         >
           <FormField
             control={form.control}
-            name="password"
+            name="username"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Username</FormLabel>
@@ -81,7 +81,7 @@ export function Login() {
           />
           <FormField
             control={form.control}
-            name="username"
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>PassWord</FormLabel>
