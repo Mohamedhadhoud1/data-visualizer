@@ -27,10 +27,17 @@ export class UsersService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    return this.usersRepository.update(id, updateUserDto);
   }
 
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);
   }
+  // findAllThat(user: string): Promise<User[]> {
+  //   return this.usersRepository.find({
+  //     where: {
+  //       firstName: user,
+  //     },
+  //   });
+  // }
 }

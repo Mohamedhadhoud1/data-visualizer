@@ -1,5 +1,5 @@
-import { ClientContext } from '../components/clientContext'
-import React, { useContext } from 'react'
+import { ClientContext } from "../context/clientContext";
+import React, { useContext } from "react";
 import {
   Card,
   CardContent,
@@ -10,7 +10,7 @@ import {
 } from "../components/ui/card";
 
 function Client() {
-    const {client} = useContext(ClientContext)
+  const { client } = useContext(ClientContext);
   return (
     <>
       {client ? (
@@ -86,4 +86,4 @@ function Client() {
   );
 }
 
-export default Client
+export default Client;

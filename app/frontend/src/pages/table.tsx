@@ -46,8 +46,9 @@ import {
   TableHeader,
   TableRow,
 } from "../components/ui/table";
-import { ClientContext } from "../components/clientContext";
+import { ClientContext } from "../context/clientContext";
 import { redirect, useNavigate } from "react-router-dom";
+import { SearchContext } from "../context/searchContext";
 
 declare module "@tanstack/table-core" {
   interface FilterFns {
@@ -153,14 +154,15 @@ const tempData: Person[] = [
   },
 ];
 export function ClientsTable() {
-      const { setClient } = React.useContext(ClientContext);
-      const navigate = useNavigate();
+  const { setClient } = React.useContext(ClientContext);
+  const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
+  const navigate = useNavigate();
   const rerender = React.useReducer(() => ({}), {})[1];
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const [globalFilter, setGlobalFilter] = React.useState("");
+  //const [globalFilter, setGlobalFilter] = React.useState("");
 
   const columns = React.useMemo<ColumnDef<Person, any>[]>(
     () => [
@@ -232,10 +234,10 @@ export function ClientsTable() {
       }
     }
   }, [table.getState().columnFilters[0]?.id]);
-React.useEffect(() => {
-  table.setPageSize(50);
-  //setClient(tempData[0]);
-}, []);
+  React.useEffect(() => {
+    table.setPageSize(50);
+    //setClient(tempData[0]);
+  }, []);
   return (
     <div className="w-11/12 sm:w-4/5 mx-auto my-10">
       <div className="rounded-md border">
@@ -265,11 +267,11 @@ React.useEffect(() => {
                               desc: " 🔽",
                             }[header.column.getIsSorted() as string] ?? null}
                           </div>
-                          {header.column.getCanFilter() ? (
+                          {/* {header.column.getCanFilter() ? (
                             <div>
                               <Filter column={header.column} table={table} />
                             </div>
-                          ) : null}
+                          ) : null} */}
                         </>
                       )}
                     </TableHead>
@@ -286,7 +288,7 @@ React.useEffect(() => {
                   className="cursor-pointer"
                   onClick={() => {
                     setClient(row.original);
-                    navigate('/clients')
+                    navigate("/clients");
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (

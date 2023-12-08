@@ -78,7 +78,7 @@ export function Login() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input placeholder="email" {...field} />
                 </FormControl>

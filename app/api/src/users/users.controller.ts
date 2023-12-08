@@ -102,8 +102,28 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async update(
+    @Param('id') id: string,
+    @Body()
+    body: { updateUserDto: UpdateUserDto; currentPassword: string | null },
+  ) {
+    const user = await this.usersService.findOne(+id);
+
+    if (
+      body.currentPassword &&
+      !(await bcrypt.compare(body.currentPassword, user.password))
+    ) {
+      throw new BadRequestException('Current Password Is Wrong');
+    }
+    if (body.updateUserDto.password) {
+      const saltOrRounds = 10;
+      const hash = await bcrypt.hash(body.updateUserDto.password, saltOrRounds);
+      body.updateUserDto.password = hash;
+    }
+    this.usersService.update(+id, body.updateUserDto);
+    return {
+      message: 'success',
+    };
   }
 
   @Delete(':id')

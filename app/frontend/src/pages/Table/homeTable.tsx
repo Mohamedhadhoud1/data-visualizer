@@ -46,7 +46,8 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
-import { ClientContext } from "../../components/clientContext";
+import { ClientContext } from "../../context/clientContext";
+import { SearchContext } from "../../context/searchContext";
 
 declare module "@tanstack/table-core" {
   interface FilterFns {
@@ -153,12 +154,13 @@ const tempData: Person[] = [
 ];
 export function DataTable() {
   const { setClient } = React.useContext(ClientContext);
+  const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
   const rerender = React.useReducer(() => ({}), {})[1];
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const [globalFilter, setGlobalFilter] = React.useState("");
+  //const [globalFilter, setGlobalFilter] = React.useState("");
 
   const columns = React.useMemo<ColumnDef<Person, any>[]>(
     () => [
@@ -197,7 +199,7 @@ export function DataTable() {
 
   const [data, setData] = React.useState<Person[]>(tempData);
   const refreshData = () => setData((old) => makeData(50000));
-console.log(data);
+  console.log(data);
   const table = useReactTable({
     data,
     columns,
@@ -231,10 +233,10 @@ console.log(data);
     }
   }, [table.getState().columnFilters[0]?.id]);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     table.setPageSize(5);
-       setClient(tempData[0]);
-  },[])
+    setClient(tempData[0]);
+  }, []);
   return (
     <div className="w-11/12 sm:w-4/5 mx-auto">
       <div className="rounded-md border">
@@ -264,11 +266,11 @@ console.log(data);
                               desc: " 🔽",
                             }[header.column.getIsSorted() as string] ?? null}
                           </div>
-                          {header.column.getCanFilter() ? (
+                          {/* {header.column.getCanFilter() ? (
                             <div>
                               <Filter column={header.column} table={table} />
                             </div>
-                          ) : null}
+                          ) : null} */}
                         </>
                       )}
                     </TableHead>
@@ -280,7 +282,13 @@ console.log(data);
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="cursor-pointer" onClick={()=>{setClient(row.original)}}>
+                <TableRow
+                  key={row.id}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setClient(row.original);
+                  }}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
@@ -346,7 +354,7 @@ console.log(data);
         </div>
         <div className="flex-1 text-muted-foreground">
           <span className="flex items-center gap-1 mx-auto justify-center">
-             Go to page:
+            Go to page:
             <Input
               type="number"
               defaultValue={table.getState().pagination.pageIndex + 1}
@@ -370,7 +378,7 @@ console.log(data);
               <SelectValue placeholder="Table Size" />
             </SelectTrigger>
             <SelectContent>
-              {[5,10, 20, 30, 40, 50].map((pageSize) => (
+              {[5, 10, 20, 30, 40, 50].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   Show {pageSize}
                 </SelectItem>

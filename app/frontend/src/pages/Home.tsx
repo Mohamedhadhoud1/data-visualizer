@@ -13,11 +13,11 @@ import { Button } from "../components/ui/button";
 
 import { Euro, UsersRound } from "lucide-react";
 import { DataTable } from "./Table/homeTable";
-import { ClientContext } from "../components/clientContext";
+import { ClientContext } from "../context/clientContext";
 
 const Home = () => {
-  const {client} = useContext(ClientContext)
-  console.log(client,"bla")
+  const { client } = useContext(ClientContext);
+  console.log(client, "bla");
   return (
     <>
       <div className="flex sm:flex-row flex-col justify-between sm:justify-around gap-4 sm:mx-2 my-10 mx-2 items-center">
@@ -50,7 +50,9 @@ const Home = () => {
           <CardTitle>Statut Client</CardTitle>
         </CardHeader>
         <CardContent className=" block w-full">
-          <p className="text-3xl mx-auto text-center p-10 font-extrabold">{client?.Name}</p>
+          <p className="text-3xl mx-auto text-center p-10 font-extrabold">
+            {client?.Name}
+          </p>
         </CardContent>
         <CardFooter className="sm:flex-row flex-col gap-2">
           <div className="flex flex-col w-4/5 sm:w-1/3">
@@ -68,7 +70,7 @@ const Home = () => {
           <div className="flex flex-col w-4/5 sm:w-1/3">
             <p className="text-center"> Formation affectée </p>
             <Button className="cursor-default text-lg sm:mt-2 sm:mb-0 mb-3 pointer-events-none">
-             {client?.Formationaffectée}
+              {client?.Formationaffectée}
             </Button>
           </div>
         </CardFooter>
