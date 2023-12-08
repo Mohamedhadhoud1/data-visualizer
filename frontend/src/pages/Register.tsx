@@ -18,51 +18,61 @@ import { Input } from "../components/ui/input";
 import { toast } from "../components/ui/use-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { ModeToggle } from "../components/mode-toggle";
+import { useState } from "react";
 
 const FormSchema = z.object({
-  FirstName: z.string().min(2, {
+  firstName: z.string().min(2, {
     message: "First Name must be at least 2 characters.",
   }),
-  LastName: z.string().min(2, {
+  lastName: z.string().min(2, {
     message: "Last Name must be at least 2 characters.",
   }),
-  username: z.string().min(2, {
+  userName: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
   email: z.string().email("This is not a valid email."),
   password: z.string().min(8, {
     message: "password must be at least 8 characters.",
   }),
-  RepeatPassword: z.string().min(8, {
-    message: "repeated password must be at least 8 characters.",
-  }),
+  // repeatPassword: z.string().min(8, {
+  //   message: "repeated password must be at least 8 characters.",
+  // }),
 });
 
 export function Register() {
   const navigate = useNavigate();
+  const [error,setError] = useState('');
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      FirstName:"",
-      LastName:'',
+      firstName:"",
+      lastName:'',
       email:'',
-      username: "",
+      userName: "",
       password:"",
-      RepeatPassword:"",
+      // repeatPassword:"",
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // });
-    navigate("/login");
-  }
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    const response = await fetch("http://localhost:3000/users/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(
+       data
+    ),
+    });
+
+    const content = await response.json();
+     if (content.message) {
+      setError(content.message);
+     }
+      if (content.firstName) {
+        navigate("/login");
+      }
+  };
+    
+  
 
   return (
     <>
@@ -77,9 +87,10 @@ export function Register() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-2/3 space-y-6 mx-auto my-20"
         >
+          <p className="text-red-500 text-center">{error ? error : null}</p>
           <FormField
             control={form.control}
-            name="FirstName"
+            name="firstName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First Name</FormLabel>
@@ -93,7 +104,7 @@ export function Register() {
           />
           <FormField
             control={form.control}
-            name="LastName"
+            name="lastName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
@@ -121,7 +132,7 @@ export function Register() {
           />
           <FormField
             control={form.control}
-            name="username"
+            name="userName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Username</FormLabel>
@@ -148,7 +159,7 @@ export function Register() {
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="RepeatPassword"
             render={({ field }) => (
@@ -164,7 +175,7 @@ export function Register() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           <Button type="submit">Register</Button>
           <p className="sm:inline sm:ml-5">
             already have an accout{" "}

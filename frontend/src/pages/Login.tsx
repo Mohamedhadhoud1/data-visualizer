@@ -18,37 +18,46 @@ import { Input } from "../components/ui/input";
 import { toast } from "../components/ui/use-toast";
 import { Link ,useNavigate } from "react-router-dom";
 import { ModeToggle } from "../components/mode-toggle";
+import { useState } from "react";
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  password: z.string().min(8, {
-    message: "password must be at least 8 characters.",
+  email: z.string().email("This is not a valid email."),
+  password: z.string().min(1, {
+    message: "password musn't be empty.",
   }),
 });
 
 export function Login() {
   const navigate= useNavigate();
+  const [error, setError] = useState("");
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password:""
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // });
-    navigate('/')
-  }
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    const response = await fetch("http://localhost:3000/users/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(
+       data
+      ),
+    });
+
+    const content = await response.json();
+    console.log(content);
+     if (content.message==='success') {
+       navigate('/')
+     }else{
+      setError(content.message)
+     }
+  };
+
+ 
 
   return (
     <>
@@ -63,14 +72,15 @@ export function Login() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-2/3 space-y-6 mx-auto my-20"
         >
+          <p className="text-red-500 text-center">{error ? error : null}</p>
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="username" {...field} />
+                  <Input placeholder="email" {...field} />
                 </FormControl>
                 <FormDescription>
                   This is your public display name.
