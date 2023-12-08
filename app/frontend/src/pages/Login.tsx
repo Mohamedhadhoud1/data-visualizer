@@ -41,7 +41,7 @@ export function Login() {
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     const response = await fetch("http://localhost:3000/users/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" ,"Origin":"*"},
       credentials: "include",
       body: JSON.stringify(
        data
