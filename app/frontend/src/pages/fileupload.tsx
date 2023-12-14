@@ -1,5 +1,4 @@
 import React, { useState, ChangeEvent } from "react";
-import axios from "axios";
 import * as XLSX from "xlsx";
 
 interface DataItem {

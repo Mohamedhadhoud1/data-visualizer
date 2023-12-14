@@ -39,6 +39,8 @@ function NavBar() {
      const content = await response.json();
      if (content.firstName) {
        setUser(content);
+       localStorage.setItem("user", JSON.stringify(content));
+       console.log(content);
      }
   }
   fetchUser();
