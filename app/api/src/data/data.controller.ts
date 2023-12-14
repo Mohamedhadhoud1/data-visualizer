@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { DataService } from './data.service';
 import { CreateDatumDto } from './dto/create-datum.dto';
 import { UpdateDatumDto } from './dto/update-datum.dto';
@@ -7,9 +15,13 @@ import { UpdateDatumDto } from './dto/update-datum.dto';
 export class DataController {
   constructor(private readonly dataService: DataService) {}
 
-  @Post()
-  create(@Body() createDatumDto: CreateDatumDto) {
-    return this.dataService.create(createDatumDto);
+  @Post('addAll')
+  addAll(@Body() createDatumDto: CreateDatumDto[]) {
+    return this.dataService.addAll(createDatumDto);
+  }
+  @Post('addOne')
+  addOne(@Body() createDatumDto: CreateDatumDto[]) {
+    return this.dataService.addOne(createDatumDto);
   }
 
   @Get()

@@ -11,6 +11,7 @@ import { ThemeProvider } from "./components/theme-provider.tsx";
 import { ClientsTable } from "./pages/table.tsx";
 import Client from "./pages/client.tsx";
 import { Sitting } from "./pages/sitting.tsx";
+import FileUpload from "./pages/fileupload.tsx";
 import { ClientContext } from "./context/clientContext.ts";
 import { SearchContext } from "./context/searchContext.ts";
 import { UserContext } from "./context/userContext.ts";
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/sitting",
         element: <Sitting />,
+      },
+      {
+        path: "/file",
+        element: <FileUpload />,
       },
     ],
     errorElement: <NotFound />,
