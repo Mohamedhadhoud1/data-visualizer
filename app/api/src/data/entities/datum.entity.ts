@@ -6,8 +6,12 @@ export class Data {
   id: number;
   @Column()
   folderNumber: string;
-  @Column({ unique: true })
+  @Column()
   seller: string;
+  @Column()
+  name: string;
+  @Column()
+  mail: string;
   @Column()
   salesAmount: string;
   @Column()

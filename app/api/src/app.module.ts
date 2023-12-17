@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { DataModule } from './data/data.module';
 import { Data } from './data/entities/datum.entity';
+import { SellersModule } from './sellers/sellers.module';
+import { Sellers } from './sellers/entities/seller.entity';
 
 @Module({
   imports: [
@@ -17,10 +19,11 @@ import { Data } from './data/entities/datum.entity';
       username: 'postgres',
       password: '1234',
       database: 'dataVisualizer',
-      entities: [User, Data],
+      entities: [User, Data, Sellers],
       synchronize: true,
     }),
     DataModule,
+    SellersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

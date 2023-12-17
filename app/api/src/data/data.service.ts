@@ -4,12 +4,15 @@ import { UpdateDatumDto } from './dto/update-datum.dto';
 import { Data } from './entities/datum.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Sellers } from 'src/sellers/entities/seller.entity';
 
 @Injectable()
 export class DataService {
   constructor(
     @InjectRepository(Data)
     private dataRepository: Repository<Data>,
+    @InjectRepository(Sellers)
+    private readonly sellerRepository: Repository<Sellers>,
   ) {}
 
   async addAll(createDatumDto: CreateDatumDto[]) {
@@ -40,5 +43,33 @@ export class DataService {
         seller: user,
       },
     });
+  }
+
+  async getDataBySellerName(sellerName: string): Promise<Data[]> {
+    const mainSeller = await this.sellerRepository.findOne({
+      where: { mainSellerName: sellerName },
+    });
+
+    if (!mainSeller) {
+      return [];
+    }
+
+    const subSellers = await this.sellerRepository.find({
+      where: { mainSellerName: sellerName },
+    });
+
+    const sellers = [mainSeller, ...subSellers];
+
+    const sellerNames = sellers.map(
+      (seller) => seller.subSellerName || seller.mainSellerName,
+    );
+
+    return (
+      this.dataRepository
+        .createQueryBuilder('data')
+        .where('data.seller IN (:...sellerNames)', { sellerNames })
+        //.orWhere('data.name IN (:...sellerNames)', { sellerNames }) // Include sub-sellers in the 'name' column
+        .getMany()
+    );
   }
 }

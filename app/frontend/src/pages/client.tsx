@@ -16,7 +16,7 @@ function Client() {
       {client ? (
         <>
           <div className="mx-auto my-20 text-center text-3xl font-extrabold">
-            <p>{client?.Name}</p>
+            <p>{client?.name}</p>
           </div>
           <div className="flex flex-wrap flex-shrink-0 gap-10 m-5 mb-20 sm:flex-row flex-col">
             <Card className="text-center sm:w-[calc(50%-1.5rem)]">
@@ -24,7 +24,7 @@ function Client() {
                 <CardTitle>Mail</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{client?.Mail}</p>
+                <p>{client?.mail}</p>
               </CardContent>
             </Card>
             <Card className="text-center sm:w-[calc(50%-1.5rem)]">
@@ -32,7 +32,7 @@ function Client() {
                 <CardTitle>Montant de vente</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{client?.Montantdevente}</p>
+                <p>{client?.salesAmount}</p>
               </CardContent>
             </Card>
             <Card className="text-center sm:w-[calc(50%-1.5rem)]">
@@ -40,7 +40,7 @@ function Client() {
                 <CardTitle>Formation</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{client?.Formation}</p>
+                <p>{client?.course}</p>
               </CardContent>
             </Card>
             <Card className="text-center sm:w-1/2 sm:w-[calc(50%-1.5rem)]">
@@ -48,7 +48,7 @@ function Client() {
                 <CardTitle>Formation affectée</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{client?.Formationaffectée}</p>
+                <p>{client?.courseAcivated}</p>
               </CardContent>
             </Card>
             <Card className="text-center sm:w-[calc(50%-1.5rem)]">
@@ -56,7 +56,7 @@ function Client() {
                 <CardTitle>Date de debut</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{client?.Datededebut}</p>
+                <p>{client?.dateStartCourse}</p>
               </CardContent>
             </Card>
             <Card className="text-center sm:w-[calc(50%-1.5rem)]">
@@ -64,7 +64,7 @@ function Client() {
                 <CardTitle>Date de fin</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{client?.Datedefin}</p>
+                <p>{client?.dateEndCourse}</p>
               </CardContent>
             </Card>
             <Card className="text-center w-full">
@@ -72,7 +72,7 @@ function Client() {
                 <CardTitle>LIEN DIGIFORMA</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{client?.LIENDIGIFORMA}</p>
+                <p>{client?.courseLink}</p>
               </CardContent>
             </Card>
           </div>

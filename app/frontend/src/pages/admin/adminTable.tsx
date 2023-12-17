@@ -33,7 +33,7 @@ import {
   rankItem,
   compareItems,
 } from "@tanstack/match-sorter-utils";
-import { makeData, Person } from "./makeData";
+import { makeData, Person } from "../Table/makeData";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "../../components/ui/button";
@@ -47,7 +47,11 @@ import {
   TableRow,
 } from "../../components/ui/table";
 import { ClientContext } from "../../context/clientContext";
+import { redirect, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/searchContext";
+import { Checkbox } from "../../components/ui/checkbox";
+import { CheckedState } from "@radix-ui/react-checkbox";
+import { toast } from "../../components/ui/use-toast";
 
 declare module "@tanstack/table-core" {
   interface FilterFns {
@@ -154,7 +158,7 @@ const tempData: Person[] = [
     folderNumber: "N° 39412668451",
     salesAmount: "3,200.00 €",
     seller: "Amine",
-    name: "BACHIR Ridwane2",
+    name: "BACHIR Ridwane",
     mail: "Ridwane69310@icloud.com",
     course: "CREATION D'ENTREPRISE",
     dateStartCourse: "11/10/2023",
@@ -164,18 +168,41 @@ const tempData: Person[] = [
     courseCode: "test",
   },
 ];
-export function DataTable() {
-  const { setClient } = React.useContext(ClientContext);
+export function AdminTable() {
+  const { client, setClient } = React.useContext(ClientContext);
   const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
+  const navigate = useNavigate();
   const rerender = React.useReducer(() => ({}), {})[1];
-
+  const [edit, setEdit] = React.useState<CheckedState>(); 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
   //const [globalFilter, setGlobalFilter] = React.useState("");
-
+//console.log(edit);
   const columns = React.useMemo<ColumnDef<Person, any>[]>(
     () => [
+      {
+        id: "select",
+        header: "",
+        cell: ({ row }) => (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => {
+              table.getRowModel().rows.forEach((otherRow) => {
+                if (otherRow.id !== row.id) {
+                  otherRow.toggleSelected(false);
+                }
+              });
+              row.toggleSelected(!!value);
+              setClient(row.original);
+              setEdit(!!value);
+            }}
+            aria-label="Select row"
+          />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+      },
       {
         accessorKey: "name",
         id: "Nom du titulaire",
@@ -208,10 +235,35 @@ export function DataTable() {
     ],
     []
   );
-
+  const [error, setError] = React.useState("");
+ 
   const [data, setData] = React.useState<Person[]>(tempData);
   const refreshData = () => setData((old) => makeData(50000));
-  console.log(data);
+const [rowSelection, setRowSelection] = React.useState({});
+ const fetchData = async () => {
+   console.log("jjj");
+   const response = await fetch("http://localhost:3000/data", {
+     method: "GET",
+     headers: { "Content-Type": "application/json" },
+   });
+
+   const content = await response.json();
+   console.log(content, "kkk");
+   if (content) {
+     console.log(content, "kkk");
+     setData(content);
+     setError("");
+     toast({
+       title: "Data Fetched Successfully",
+     });
+     //navigate("/admin");
+   } else {
+     setError(content.message);
+   }
+ };
+React.useEffect(() => {
+  fetchData();
+}, []);
   const table = useReactTable({
     data,
     columns,
@@ -221,6 +273,7 @@ export function DataTable() {
     state: {
       columnFilters,
       globalFilter,
+      rowSelection,
     },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
@@ -232,6 +285,7 @@ export function DataTable() {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
+    onRowSelectionChange: setRowSelection,
     debugTable: true,
     debugHeaders: true,
     debugColumns: false,
@@ -245,161 +299,197 @@ export function DataTable() {
     }
   }, [table.getState().columnFilters[0]?.id]);
 
-  React.useEffect(() => {
-    table.setPageSize(5);
-    setClient(tempData[0]);
-  }, []);
+  const handleDelete = async()=>{
+    const response = await fetch(`http://localhost:3000/data/${client?.id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+      const content = await response.json();
+    if (content.affected===1){
+      console.log(content,"ggggg");
+      fetchData();
+    }
+  }
+  
   return (
-    <div className="w-11/12 sm:w-4/5 mx-auto">
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder ? null : (
-                        <>
-                          <div
-                            {...{
-                              className: header.column.getCanSort()
-                                ? "cursor-pointer select-none"
-                                : "",
-                              onClick: header.column.getToggleSortingHandler(),
-                            }}
-                          >
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                            {{
-                              asc: " 🔼",
-                              desc: " 🔽",
-                            }[header.column.getIsSorted() as string] ?? null}
-                          </div>
-                          {/* {header.column.getCanFilter() ? (
+    <>
+      <div className="flex gap-4 m-6">
+        <Button variant={"secondary"} onClick={() => navigate("/addClient")}>
+          Add
+        </Button>
+        {edit && (
+          <>
+            <Button variant={"secondary"} onClick={() => navigate("/clients")}>
+              Show Data
+            </Button>
+            <Button
+              variant={"secondary"}
+              onClick={() => navigate("/editclient")}
+            >
+              Edite
+            </Button>
+            <Button
+              variant={"secondary"}
+              onClick={() => handleDelete()}
+            >
+              Delete
+            </Button>
+          </>
+        )}
+      </div>
+      <div className="w-11/12 sm:w-4/5 mx-auto my-10">
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder ? null : (
+                          <>
+                            <div
+                              {...{
+                                className: header.column.getCanSort()
+                                  ? "cursor-pointer select-none"
+                                  : "",
+                                onClick:
+                                  header.column.getToggleSortingHandler(),
+                              }}
+                            >
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                              {{
+                                asc: " 🔼",
+                                desc: " 🔽",
+                              }[header.column.getIsSorted() as string] ?? null}
+                            </div>
+                            {/* {header.column.getCanFilter() ? (
                             <div>
                               <Filter column={header.column} table={table} />
                             </div>
                           ) : null} */}
-                        </>
-                      )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setClient(row.original);
-                  }}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                          </>
+                        )}
+                      </TableHead>
+                    );
+                  })}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex flex-col sm:flex-row items-center justify-center space-x-2 space-y-4 py-4">
-        <div className="space-x-2">
-          <Button
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<<"}
-          </Button>
-          <Button
-            variant={"secondary"}
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<"}
-          </Button>
-          <Button
-            variant={"secondary"}
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            {">"}
-          </Button>
-          <Button
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            {">>"}
-          </Button>
-        </div>
-        <div className="flex-1 text-sm text-muted-foreground text-center">
-          <span className="flex items-center gap-1">
-            <div>Page</div>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
-            </strong>
-          </span>{" "}
-        </div>
-        <div className="flex-1 text-muted-foreground">
-          <span className="flex items-center gap-1 mx-auto justify-center">
-            Go to page:
-            <Input
-              type="number"
-              defaultValue={table.getState().pagination.pageIndex + 1}
-              onChange={(e) => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                table.setPageIndex(page);
-              }}
-              className="border p-1 rounded w-1/2"
-            />
-          </span>
-        </div>
-        <div className="flex-1 text-sm">
-          <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(e) => {
-              console.log(e, "e  ");
-              table.setPageSize(Number(e));
-            }}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Table Size" />
-            </SelectTrigger>
-            <SelectContent>
-              {[5, 10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={`${pageSize}`}>
-                  Show {pageSize}
-                </SelectItem>
               ))}
-            </SelectContent>
-          </Select>
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    className=""
+                    //   onClick={() => {
+                    //     setClient(row.original);
+                    //     navigate("/clients");
+                    //   }}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+        <div className="flex flex-col sm:flex-row items-center justify-center space-x-2 space-y-4 py-4">
+          <div className="space-x-2">
+            <Button
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<<"}
+            </Button>
+            <Button
+              variant={"secondary"}
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<"}
+            </Button>
+            <Button
+              variant={"secondary"}
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              {">"}
+            </Button>
+            <Button
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              {">>"}
+            </Button>
+          </div>
+          <div className="flex-1 text-sm text-muted-foreground text-center">
+            <span className="flex items-center gap-1">
+              <div>Page</div>
+              <strong>
+                {table.getState().pagination.pageIndex + 1} of{" "}
+                {table.getPageCount()}
+              </strong>
+            </span>{" "}
+          </div>
+          <div className="flex-1 text-muted-foreground">
+            <span className="flex items-center gap-1 mx-auto justify-center">
+              Go to page:
+              <Input
+                type="number"
+                defaultValue={table.getState().pagination.pageIndex + 1}
+                onChange={(e) => {
+                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                  table.setPageIndex(page);
+                }}
+                className="border p-1 rounded w-1/2"
+              />
+            </span>
+          </div>
+          <div className="flex-1 text-sm">
+            <Select
+              value={`${table.getState().pagination.pageSize}`}
+              onValueChange={(e) => {
+                console.log(e, "e  ");
+                table.setPageSize(Number(e));
+              }}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Table Size" />
+              </SelectTrigger>
+              <SelectContent>
+                {[5, 10, 20, 30, 40, 50].map((pageSize) => (
+                  <SelectItem key={pageSize} value={`${pageSize}`}>
+                    Show {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

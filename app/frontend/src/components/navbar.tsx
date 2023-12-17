@@ -29,22 +29,15 @@ function NavBar() {
   console.log(location.pathname)
   const { globalFilter, setGlobalFilter } = useContext(SearchContext);
   const { user, setUser } = useContext(UserContext);
-  useEffect(()=>{
-    const fetchUser = async () => {
-    const response = await fetch("http://localhost:3000/users/user", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" ,"Origin":"*"},
-      credentials: "include",
-    });
-     const content = await response.json();
-     if (content.firstName) {
-       setUser(content);
-       localStorage.setItem("user", JSON.stringify(content));
-       console.log(content);
-     }
-  }
-  fetchUser();
-  },[user?.id])
+ 
+
+   const logOut = async () => {
+     const response = await fetch("http://localhost:3000/users/logout", {
+       method: "POST",
+       headers: { "Content-Type": "application/json", Origin: "*" },
+       credentials: "include",
+     });
+   };
   return (
     <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-white py-2 shadow-md shadow-black/5 dark:bg-black dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
       <div className="flex w-full flex-row items-center justify-between px-3 gap-5">
@@ -116,6 +109,7 @@ function NavBar() {
                       ? "dark:bg-white dark:text-black bg-accent"
                       : null
                   }`}
+                  onClick={logOut}
                 >
                   Log Out
                 </Button>
@@ -148,7 +142,8 @@ function NavBar() {
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex flex-row-reverse items-center">
-              <ChevronDown /> <p className="font-bold text-lg"> {user?.firstName}</p>
+              <ChevronDown />{" "}
+              <p className="font-bold text-lg"> {user?.firstName}</p>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -174,7 +169,7 @@ function NavBar() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link to="/login" className="w-full">
+                <Link to="/login" className="w-full" onClick={logOut}>
                   Log Out
                 </Link>
               </DropdownMenuItem>

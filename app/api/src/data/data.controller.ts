@@ -20,7 +20,7 @@ export class DataController {
     return this.dataService.addAll(createDatumDto);
   }
   @Post('addOne')
-  addOne(@Body() createDatumDto: CreateDatumDto[]) {
+  addOne(@Body() createDatumDto: CreateDatumDto) {
     return this.dataService.addOne(createDatumDto);
   }
 
@@ -32,6 +32,10 @@ export class DataController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.dataService.findOne(+id);
+  }
+  @Get(':sellerName')
+  async getDataBySellerName(@Param('sellerName') sellerName: string) {
+    return this.dataService.getDataBySellerName(sellerName);
   }
 
   @Patch(':id')
