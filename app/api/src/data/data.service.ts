@@ -45,7 +45,7 @@ export class DataService {
     });
   }
 
-  async getDataBySellerName(sellerName: string): Promise<Data[]> {
+  async findSubSellersData(sellerName: string): Promise<Data[]> {
     const mainSeller = await this.sellerRepository.findOne({
       where: { mainSellerName: sellerName },
     });
@@ -59,17 +59,37 @@ export class DataService {
     });
 
     const sellers = [mainSeller, ...subSellers];
-
     const sellerNames = sellers.map(
       (seller) => seller.subSellerName || seller.mainSellerName,
     );
+    return this.dataRepository
+      .createQueryBuilder('data')
+      .where('data.seller IN (:...sellerNames)', { sellerNames })
+      .orWhere('data.name IN (:...sellerNames)', { sellerNames }) // Include sub-sellers in the 'name' column
+      .getMany();
+  }
+  async findSubSellersAndMainSellersData(sellerName: string): Promise<Data[]> {
+    const mainSeller = await this.sellerRepository.findOne({
+      where: { mainSellerName: sellerName },
+    });
 
-    return (
-      this.dataRepository
-        .createQueryBuilder('data')
-        .where('data.seller IN (:...sellerNames)', { sellerNames })
-        //.orWhere('data.name IN (:...sellerNames)', { sellerNames }) // Include sub-sellers in the 'name' column
-        .getMany()
+    if (!mainSeller) {
+      return [];
+    }
+
+    const subSellers = await this.sellerRepository.find({
+      where: { mainSellerName: sellerName },
+    });
+
+    const sellers = [mainSeller, ...subSellers];
+    let sellerNames = sellers.map(
+      (seller) => seller.subSellerName || seller.mainSellerName,
     );
+    sellerNames = [sellerName, ...sellerNames];
+    return this.dataRepository
+      .createQueryBuilder('data')
+      .where('data.seller IN (:...sellerNames)', { sellerNames })
+      .orWhere('data.name IN (:...sellerNames)', { sellerNames }) // Include sub-sellers in the 'name' column
+      .getMany();
   }
 }

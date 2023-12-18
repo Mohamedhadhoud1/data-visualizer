@@ -26,18 +26,18 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../components/ui/select";
+} from "../../../components/ui/select";
 
 import {
   RankingInfo,
   rankItem,
   compareItems,
 } from "@tanstack/match-sorter-utils";
-import { makeData, Person } from "../Table/makeData";
+import { makeData, Person } from "../../Table/makeData";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
 import {
   Table,
   TableBody,
@@ -45,13 +45,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../components/ui/table";
-import { ClientContext } from "../../context/clientContext";
+} from "../../../components/ui/table";
+import { ClientContext } from "../../../context/clientContext";
 import { redirect, useNavigate } from "react-router-dom";
-import { SearchContext } from "../../context/searchContext";
-import { Checkbox } from "../../components/ui/checkbox";
+import { SearchContext } from "../../../context/searchContext";
+import { Checkbox } from "../../../components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
-import { toast } from "../../components/ui/use-toast";
+import { toast } from "../../../components/ui/use-toast";
+import { User } from "@/interface/user";
 
 declare module "@tanstack/table-core" {
   interface FilterFns {
@@ -88,88 +89,17 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   // Provide an alphanumeric fallback for when the item ranks are equal
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
-const tempData: Person[] = [
+const tempData: User[] = [
   {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
+    id:        "test",
+    firstName: "test",
+    lastName:  "test",
+    userName:  "test",
+    email:     "test",
+    role:      "test",
+}
 ];
-export function AdminTable() {
-  const { client, setClient } = React.useContext(ClientContext);
+export function UsersTable() {
   const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
   const navigate = useNavigate();
   const rerender = React.useReducer(() => ({}), {})[1];
@@ -177,9 +107,14 @@ export function AdminTable() {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+    const [error, setError] = React.useState("");
+
+    const [data, setData] = React.useState<User[]>(tempData);
+    const [user, setUser] = React.useState<User>();
+    const [rowSelection, setRowSelection] = React.useState({});
   //const [globalFilter, setGlobalFilter] = React.useState("");
 //console.log(edit);
-  const columns = React.useMemo<ColumnDef<Person, any>[]>(
+  const columns = React.useMemo<ColumnDef<User, any>[]>(
     () => [
       {
         id: "select",
@@ -194,7 +129,7 @@ export function AdminTable() {
                 }
               });
               row.toggleSelected(!!value);
-              setClient(row.original);
+              setUser(row.original);
               setEdit(!!value);
             }}
             aria-label="Select row"
@@ -204,45 +139,41 @@ export function AdminTable() {
         enableHiding: false,
       },
       {
-        accessorKey: "name",
-        id: "Nom du titulaire",
-        header: "Name",
+        accessorKey: "firstName",
+        id: "firstName",
+        header: "first Name",
         cell: (info) => info.getValue(),
         footer: (props) => props.column.id,
         filterFn: "fuzzy",
         sortingFn: fuzzySort,
       },
       {
-        accessorKey: "courseLink",
-        header: () => "LIEN DIGIFORMA",
+        accessorKey: "lastName",
+        header: () => "last Name",
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: "salesAmount",
-        header: () => <span>Montant de vente</span>,
+        accessorKey: "userName",
+        header: () => <span>userName</span>,
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: "dateStartCourse",
-        header: "Date de debut",
+        accessorKey: "email",
+        header: "email",
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: "dateEndCourse",
-        header: "Date de fin",
+        accessorKey: "role",
+        header: "role",
         footer: (props) => props.column.id,
       },
     ],
     []
   );
-  const [error, setError] = React.useState("");
- 
-  const [data, setData] = React.useState<Person[]>(tempData);
-  const refreshData = () => setData((old) => makeData(50000));
-const [rowSelection, setRowSelection] = React.useState({});
+
  const fetchData = async () => {
    console.log("jjj");
-   const response = await fetch("http://localhost:3000/data", {
+   const response = await fetch("http://localhost:3000/users", {
      method: "GET",
      headers: { "Content-Type": "application/json" },
    });
@@ -254,7 +185,7 @@ const [rowSelection, setRowSelection] = React.useState({});
      setData(content);
      setError("");
      toast({
-       title: "Data Fetched Successfully",
+       title: "Users Fetched Successfully",
      });
      //navigate("/admin");
    } else {
@@ -300,7 +231,7 @@ React.useEffect(() => {
   }, [table.getState().columnFilters[0]?.id]);
 
   const handleDelete = async()=>{
-    const response = await fetch(`http://localhost:3000/data/${client?.id}`, {
+    const response = await fetch(`http://localhost:3000/users/${user?.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
@@ -314,20 +245,8 @@ React.useEffect(() => {
   return (
     <>
       <div className="flex gap-4 m-6">
-        <Button variant={"secondary"} onClick={() => navigate("/addClient")}>
-          Add
-        </Button>
         {edit && (
           <>
-            <Button variant={"secondary"} onClick={() => navigate("/clients")}>
-              Show Data
-            </Button>
-            <Button
-              variant={"secondary"}
-              onClick={() => navigate("/editclient")}
-            >
-              Edite
-            </Button>
             <Button
               variant={"secondary"}
               onClick={() => handleDelete()}

@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSellerDto } from './dto/create-seller.dto';
 import { UpdateSellerDto } from './dto/update-seller.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Sellers } from './entities/seller.entity';
 
 @Injectable()
 export class SellersService {
-  create(createSellerDto: CreateSellerDto) {
-    return 'This action adds a new seller';
+  constructor(
+    @InjectRepository(Sellers)
+    private readonly sellerRepository: Repository<Sellers>,
+  ) {}
+
+  async addAll(createSellerDto: CreateSellerDto[]) {
+    return await this.sellerRepository.save(createSellerDto);
+  }
+  async addOne(createSellerDto: CreateSellerDto) {
+    return await this.sellerRepository.save(createSellerDto);
   }
 
   findAll() {
-    return `This action returns all sellers`;
+    return this.sellerRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} seller`;
+  findOne(id: number): Promise<Sellers | null> {
+    return this.sellerRepository.findOneBy({ id });
   }
 
   update(id: number, updateSellerDto: UpdateSellerDto) {
-    return `This action updates a #${id} seller`;
+    return this.sellerRepository.update(id, updateSellerDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} seller`;
+    return this.sellerRepository.delete(id);
   }
 }

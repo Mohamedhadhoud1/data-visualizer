@@ -14,7 +14,7 @@ import React, { useContext, useEffect, useState } from "react";
 import NotFound from "./pages/404/NotFound.tsx";
 import { ThemeProvider } from "./components/theme-provider.tsx";
 import { ClientsTable } from "./pages/table.tsx";
-import AdminPage from "./pages/admin/adminPage.tsx";
+import AdminPage from "./pages/admin/clients/adminPage.tsx";
 import Client from "./pages/client.tsx";
 import { Sitting } from "./pages/sitting.tsx";
 import FileUpload from "./pages/fileupload.tsx";
@@ -22,8 +22,13 @@ import { ClientContext } from "./context/clientContext.ts";
 import { SearchContext } from "./context/searchContext.ts";
 import { UserContext } from "./context/userContext.ts";
 import { Toaster } from "./components/ui/toaster.tsx";
-import { AddClient } from "./pages/admin/addClient.tsx";
-import { EditClient } from "./pages/admin/editClient.tsx";
+import { AddClient } from "./pages/admin/clients/addClient.tsx";
+import { EditClient } from "./pages/admin/clients/editClient.tsx";
+import { SellersTable } from "./pages/admin/sellers/sellersTable.tsx";
+import { AddSeller } from "./pages/admin/sellers/addSeller.tsx";
+import { EditSeller } from "./pages/admin/sellers/editSeller.tsx";
+import {Seller} from "./interface/seller.ts"
+import { UsersTable } from "./pages/admin/users/usersTable.tsx";
 const Layout = () => {
   return (
     <>
@@ -37,7 +42,7 @@ const Layout = () => {
 const PrivateRoute = ({ children }) => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-
+  
   useEffect(() => {
     const fetchUser = async () => {
       const response = await fetch("http://localhost:3000/users/user", {
@@ -55,10 +60,26 @@ const PrivateRoute = ({ children }) => {
       }
     };
     fetchUser();
-  }, [user?.id]);
+},[user?.id])
+return children;
+}
 
+const Adminroute = ({ children }) => {
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  useEffect(()=>{
+ if (user?.role !== "admin") {
+   navigate("/");
+ }
+  },[user?.role])
   return children;
 };
+function App() {
+  const [client, setClient] = useState();
+  const [user, setUser] = useState();
+  const [globalFilter, setGlobalFilter] = useState();
+  const [seller, setSeller] = useState([]);
+  
 const router = createBrowserRouter([
   {
     path: "/",
@@ -90,7 +111,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin",
-        element: <AdminPage />,
+        element: (
+          <Adminroute>
+            <AdminPage />
+          </Adminroute>
+        ),
       },
       {
         path: "/addClient",
@@ -99,6 +124,22 @@ const router = createBrowserRouter([
       {
         path: "/editClient",
         element: <EditClient />,
+      },
+      {
+        path: "/sellers",
+        element: <SellersTable setSeller={setSeller} seller={seller} />,
+      },
+      {
+        path: "/addSeller",
+        element: <AddSeller />,
+      },
+      {
+        path: "/editSeller",
+        element: <EditSeller seller={seller} />,
+      },
+      {
+        path: "/users",
+        element: <UsersTable />,
       },
     ],
     errorElement: <NotFound />,
@@ -113,10 +154,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-function App() {
-  const [client, setClient] = useState();
-  const [user, setUser] = useState();
-  const [globalFilter, setGlobalFilter] = useState();
   return (
     <ThemeProvider>
       <ClientContext.Provider value={{ client, setClient }}>

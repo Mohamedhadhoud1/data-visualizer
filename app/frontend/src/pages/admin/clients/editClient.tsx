@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { Button } from "../../components/ui/button";
+import { Button } from "../../../components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,13 +13,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../components/ui/form";
-import { Input } from "../../components/ui/input";
-import { toast } from "../../components/ui/use-toast";
+} from "../../../components/ui/form";
+import { Input } from "../../../components/ui/input";
+import { toast } from "../../../components/ui/use-toast";
 import { Link, useNavigate } from "react-router-dom";
-import { ModeToggle } from "../../components/mode-toggle";
+import { ModeToggle } from "../../../components/mode-toggle";
 import { useContext, useState } from "react";
-import { ClientContext } from "../../context/clientContext";
+import { ClientContext } from "../../../context/clientContext";
 
 const FormSchema = z.object({
   folderNumber: z.string(),
@@ -38,16 +38,16 @@ const FormSchema = z.object({
 export function EditClient() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const {client} = useContext(ClientContext)
-  console.log(client,"llll");
+  const { client } = useContext(ClientContext);
+  console.log(client, "llll");
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       folderNumber: client?.folderNumber,
       salesAmount: client?.salesAmount,
       seller: client?.seller,
-      name:client?.name,
-      mail:client?.mail,
+      name: client?.name,
+      mail: client?.mail,
       course: client?.course,
       dateStartCourse: client?.dateStartCourse,
       dateEndCourse: client?.dateEndCourse,
@@ -58,7 +58,7 @@ export function EditClient() {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log(data,client.id,"hhh");
+    console.log(data, client.id, "hhh");
     const response = await fetch(`http://localhost:3000/data/${client?.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },

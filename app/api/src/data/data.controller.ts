@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { DataService } from './data.service';
 import { CreateDatumDto } from './dto/create-datum.dto';
@@ -33,11 +34,31 @@ export class DataController {
   findOne(@Param('id') id: string) {
     return this.dataService.findOne(+id);
   }
-  @Get(':sellerName')
+  @Get('subAndMain/:sellerName')
   async getDataBySellerName(@Param('sellerName') sellerName: string) {
-    return this.dataService.getDataBySellerName(sellerName);
+    try {
+      const result =
+        await this.dataService.findSubSellersAndMainSellersData(sellerName);
+      return result;
+    } catch (error) {
+      console.error(`Error fetching data for seller ${sellerName}:`, error);
+      throw new InternalServerErrorException(
+        'An error occurred while fetching data.',
+      );
+    }
   }
-
+  @Get('sub/:sellerName')
+  async getSubDataBySellerName(@Param('sellerName') sellerName: string) {
+    try {
+      const result = await this.dataService.findSubSellersData(sellerName);
+      return result;
+    } catch (error) {
+      console.error(`Error fetching data for seller ${sellerName}:`, error);
+      throw new InternalServerErrorException(
+        'An error occurred while fetching data.',
+      );
+    }
+  }
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDatumDto: UpdateDatumDto) {
     return this.dataService.update(+id, updateDatumDto);

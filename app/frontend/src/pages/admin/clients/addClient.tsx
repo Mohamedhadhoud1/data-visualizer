@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { Button } from "../../components/ui/button";
+import { Button } from "../../../components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,11 +13,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../components/ui/form";
-import { Input } from "../../components/ui/input";
-import { toast } from "../../components/ui/use-toast";
+} from "../../../components/ui/form";
+import { Input } from "../../../components/ui/input";
+import { toast } from "../../../components/ui/use-toast";
 import { Link, useNavigate } from "react-router-dom";
-import { ModeToggle } from "../../components/mode-toggle";
+import { ModeToggle } from "../../../components/mode-toggle";
 import { useState } from "react";
 
 const FormSchema = z.object({
@@ -42,9 +42,9 @@ export function AddClient() {
     defaultValues: {
       folderNumber: "",
       salesAmount: "",
-      seller:"",
-      name:"",
-      mail:"",
+      seller: "",
+      name: "",
+      mail: "",
       course: "",
       dateStartCourse: "",
       dateEndCourse: "",
@@ -55,7 +55,7 @@ export function AddClient() {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log("haha")
+    console.log("haha");
     const response = await fetch("http://localhost:3000/data/addOne", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -68,7 +68,7 @@ export function AddClient() {
       toast({
         title: "Client Added Successfully",
       });
-      navigate("/admin")
+      navigate("/admin");
     } else {
       setError(content.message);
     }
