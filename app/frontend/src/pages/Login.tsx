@@ -18,7 +18,8 @@ import { Input } from "../components/ui/input";
 import { toast } from "../components/ui/use-toast";
 import { Link ,useNavigate } from "react-router-dom";
 import { ModeToggle } from "../components/mode-toggle";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../context/userContext";
 
 const FormSchema = z.object({
   email: z.string().email("This is not a valid email."),
@@ -30,6 +31,7 @@ const FormSchema = z.object({
 export function Login() {
   const navigate= useNavigate();
   const [error, setError] = useState("");
+  const {user, setUser} = useContext(UserContext);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -54,10 +56,9 @@ export function Login() {
        navigate('/')
      }else{
       setError(content.message)
-     }
+     } 
   };
 
- 
 
   return (
     <>

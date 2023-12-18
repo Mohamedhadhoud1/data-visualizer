@@ -115,7 +115,7 @@ export class UsersController {
     ) {
       throw new BadRequestException('Current Password Is Wrong');
     }
-    if (body.updateUserDto.password) {
+    if (body.updateUserDto?.password) {
       const saltOrRounds = 10;
       const hash = await bcrypt.hash(body.updateUserDto.password, saltOrRounds);
       body.updateUserDto.password = hash;

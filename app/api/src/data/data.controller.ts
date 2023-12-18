@@ -34,6 +34,10 @@ export class DataController {
   findOne(@Param('id') id: string) {
     return this.dataService.findOne(+id);
   }
+  @Get('seller/:sellerName')
+  findAllThat(@Param('sellerName') name: string) {
+    return this.dataService.findAllThat(name);
+  }
   @Get('subAndMain/:sellerName')
   async getDataBySellerName(@Param('sellerName') sellerName: string) {
     try {
@@ -51,6 +55,19 @@ export class DataController {
   async getSubDataBySellerName(@Param('sellerName') sellerName: string) {
     try {
       const result = await this.dataService.findSubSellersData(sellerName);
+      return result;
+    } catch (error) {
+      console.error(`Error fetching data for seller ${sellerName}:`, error);
+      throw new InternalServerErrorException(
+        'An error occurred while fetching data.',
+      );
+    }
+  }
+  @Get('subInd/:sellerName')
+  async getSubIndDataBySellerName(@Param('sellerName') sellerName: string) {
+    try {
+      const result =
+        await this.dataService.findIndividualSubSellersData(sellerName);
       return result;
     } catch (error) {
       console.error(`Error fetching data for seller ${sellerName}:`, error);

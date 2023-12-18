@@ -101,6 +101,55 @@ function NavBar() {
                   Settings
                 </Button>
               </Link>
+              <Link to="/subSellersData">
+                <Button
+                  variant="ghost"
+                  className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
+                    location.pathname == "/subSellersData"
+                      ? "dark:bg-white dark:text-black bg-accent"
+                      : null
+                  }`}
+                >
+                  code affectée
+                </Button>
+              </Link>
+             {user?.role=="admin" && (<><Link to="/admin">
+                <Button
+                  variant="ghost"
+                  className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
+                    location.pathname == "/admin"
+                      ? "dark:bg-white dark:text-black bg-accent"
+                      : null
+                  }`}
+                >
+                  Admin Page
+                </Button>
+              </Link>
+              <Link to="/sellers">
+                <Button
+                  variant="ghost"
+                  className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
+                    location.pathname == "/sellers"
+                      ? "dark:bg-white dark:text-black bg-accent"
+                      : null
+                  }`}
+                >
+                  Sellers
+                </Button>
+              </Link>
+              <Link to="/users">
+                <Button
+                  variant="ghost"
+                  className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
+                    location.pathname == "/users"
+                      ? "dark:bg-white dark:text-black bg-accent"
+                      : null
+                  }`}
+                >
+                  Users
+                </Button>
+              </Link>
+              </>)}
               <Link to="/login">
                 <Button
                   variant="ghost"
@@ -166,6 +215,11 @@ function NavBar() {
               <DropdownMenuItem>
                 <Link to="/clients" className="w-full">
                   Client
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link to="/subSellersData" className="w-full">
+                  code affectée
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>

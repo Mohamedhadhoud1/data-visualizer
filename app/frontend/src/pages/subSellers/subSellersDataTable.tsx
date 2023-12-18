@@ -26,18 +26,17 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../components/ui/select";
+} from "../../components/ui/select";
 
 import {
   RankingInfo,
   rankItem,
   compareItems,
 } from "@tanstack/match-sorter-utils";
-import { makeData, Person } from "../../Table/makeData";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
-import { Button } from "../../../components/ui/button";
-import { Input } from "../../../components/ui/input";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import {
   Table,
   TableBody,
@@ -45,14 +44,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../components/ui/table";
-import { ClientContext } from "../../../context/clientContext";
+} from "../../components/ui/table";
+import { ClientContext } from "../../context/clientContext";
 import { redirect, useNavigate } from "react-router-dom";
-import { SearchContext } from "../../../context/searchContext";
-import { Checkbox } from "../../../components/ui/checkbox";
+import { SearchContext } from "../../context/searchContext";
+import { Checkbox } from "../../components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
-import { toast } from "../../../components/ui/use-toast";
-import { User } from "@/interface/user";
+import { toast } from "../../components/ui/use-toast";
+import { ClientData } from "@/interface/ClientData";
 
 declare module "@tanstack/table-core" {
   interface FilterFns {
@@ -89,47 +88,98 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   // Provide an alphanumeric fallback for when the item ranks are equal
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
-const tempData: User[] = [
+const tempData: ClientData[] = [
   {
-    id:        "test",
-    firstName: "test",
-    lastName:  "test",
-    userName:  "test",
-    email:     "test",
-    role:      "test",
-}
+    folderNumber: "N° 39412668451",
+    salesAmount: "3,200.00 €",
+    seller: "Amine",
+    name: "BACHIR Ridwane",
+    mail: "Ridwane69310@icloud.com",
+    course: "CREATION D'ENTREPRISE",
+    dateStartCourse: "11/10/2023",
+    dateEndCourse: "25/10/2023",
+    courseAcivated: "OUI",
+    courseLink: "https://app.digiforma.com/r/80Lislhu",
+    courseCode: "test",
+  },
+  {
+    folderNumber: "N° 39412668451",
+    salesAmount: "3,200.00 €",
+    seller: "Amine",
+    name: "BACHIR Ridwane",
+    mail: "Ridwane69310@icloud.com",
+    course: "CREATION D'ENTREPRISE",
+    dateStartCourse: "11/10/2023",
+    dateEndCourse: "25/10/2023",
+    courseAcivated: "OUI",
+    courseLink: "https://app.digiforma.com/r/80Lislhu",
+    courseCode: "test",
+  },
+  {
+    folderNumber: "N° 39412668451",
+    salesAmount: "3,200.00 €",
+    seller: "Amine",
+    name: "BACHIR Ridwane",
+    mail: "Ridwane69310@icloud.com",
+    course: "CREATION D'ENTREPRISE",
+    dateStartCourse: "11/10/2023",
+    dateEndCourse: "25/10/2023",
+    courseAcivated: "OUI",
+    courseLink: "https://app.digiforma.com/r/80Lislhu",
+    courseCode: "test",
+  },
+  {
+    folderNumber: "N° 39412668451",
+    salesAmount: "3,200.00 €",
+    seller: "Amine",
+    name: "BACHIR Ridwane",
+    mail: "Ridwane69310@icloud.com",
+    course: "CREATION D'ENTREPRISE",
+    dateStartCourse: "11/10/2023",
+    dateEndCourse: "25/10/2023",
+    courseAcivated: "OUI",
+    courseLink: "https://app.digiforma.com/r/80Lislhu",
+    courseCode: "test",
+  },
+  {
+    folderNumber: "N° 39412668451",
+    salesAmount: "3,200.00 €",
+    seller: "Amine",
+    name: "BACHIR Ridwane",
+    mail: "Ridwane69310@icloud.com",
+    course: "CREATION D'ENTREPRISE",
+    dateStartCourse: "11/10/2023",
+    dateEndCourse: "25/10/2023",
+    courseAcivated: "OUI",
+    courseLink: "https://app.digiforma.com/r/80Lislhu",
+    courseCode: "test",
+  },
+  {
+    folderNumber: "N° 39412668451",
+    salesAmount: "3,200.00 €",
+    seller: "Amine",
+    name: "BACHIR Ridwane",
+    mail: "Ridwane69310@icloud.com",
+    course: "CREATION D'ENTREPRISE",
+    dateStartCourse: "11/10/2023",
+    dateEndCourse: "25/10/2023",
+    courseAcivated: "OUI",
+    courseLink: "https://app.digiforma.com/r/80Lislhu",
+    courseCode: "test",
+  },
 ];
-export function UsersTable() {
+export function SubSellersDataTable(props:{data:ClientData[]}) {
+  const { client, setClient } = React.useContext(ClientContext);
   const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
   const navigate = useNavigate();
   const rerender = React.useReducer(() => ({}), {})[1];
-  const [edit, setEdit] = React.useState<CheckedState>(); 
+  const [edit, setEdit] = React.useState<CheckedState>();
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-    const [error, setError] = React.useState("");
-
-    const [data, setData] = React.useState<User[]>(tempData);
-    const [user, setUser] = React.useState<User>();
-    const [rowSelection, setRowSelection] = React.useState({});
   //const [globalFilter, setGlobalFilter] = React.useState("");
-//console.log(edit);
- const habdleUpdateUser = async (user:User,role:string) => {
-  console.log(role,"role",user);
-   const response = await fetch(`http://localhost:3000/users/${user?.id}`, {
-     method: "PATCH",
-     headers: { "Content-Type": "application/json" },
-     body:JSON.stringify({updateUserDto:{role:role}})
-   });
-   console.log(response);
-   if (response.ok) {
-     toast({
-       title: "User Role Updated Successfully",
-     });
-     fetchData();
-   }
- };
-  const columns = React.useMemo<ColumnDef<User, any>[]>(
+  //console.log(edit);
+  const columns = React.useMemo<ColumnDef<ClientData, any>[]>(
     () => [
       {
         id: "select",
@@ -144,7 +194,7 @@ export function UsersTable() {
                 }
               });
               row.toggleSelected(!!value);
-              //setUser(row.original);
+              setClient(row.original);
               setEdit(!!value);
             }}
             aria-label="Select row"
@@ -154,79 +204,43 @@ export function UsersTable() {
         enableHiding: false,
       },
       {
-        accessorKey: "firstName",
-        id: "firstName",
-        header: "first Name",
+        accessorKey: "name",
+        id: "Nom du titulaire",
+        header: "Name",
         cell: (info) => info.getValue(),
         footer: (props) => props.column.id,
         filterFn: "fuzzy",
         sortingFn: fuzzySort,
       },
       {
-        accessorKey: "lastName",
-        header: () => "last Name",
+        accessorKey: "courseLink",
+        header: () => "LIEN DIGIFORMA",
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: "userName",
-        header: () => <span>userName</span>,
+        accessorKey: "salesAmount",
+        header: () => <span>Montant de vente</span>,
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: "email",
-        header: "email",
+        accessorKey: "dateStartCourse",
+        header: "Date de debut",
         footer: (props) => props.column.id,
       },
       {
-        id: "role",
-        header: "Role",
-        cell: ({ row }) => (
-          <Select onValueChange={(e)=>habdleUpdateUser(row.original,e)}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue
-                placeholder={
-                  row.original.role.charAt(0).toUpperCase() +
-                  row.original.role.slice(1)
-                }
-              />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="user">User</SelectItem>
-              <SelectItem value="admin">Admin</SelectItem>
-            </SelectContent>
-          </Select>
-        ),
-        enableSorting: false,
-        enableHiding: false,
+        accessorKey: "dateEndCourse",
+        header: "Date de fin",
+        footer: (props) => props.column.id,
       },
     ],
     []
   );
+  const [error, setError] = React.useState("");
 
- const fetchData = async () => {
-   console.log("jjj");
-   const response = await fetch("http://localhost:3000/users", {
-     method: "GET",
-     headers: { "Content-Type": "application/json" },
-   });
-
-   const content = await response.json();
-   console.log(content, "kkk");
-   if (content) {
-     console.log(content, "kkk");
-     setData(content);
-     setError("");
-     toast({
-       title: "Users Fetched Successfully",
-     });
-     //navigate("/admin");
-   } else {
-     setError(content.message);
-   }
- };
-React.useEffect(() => {
-  fetchData();
-}, []);
+  const [data, setData] = React.useState<ClientData[]>(props?.data);
+  console.log(data,'data')
+  const [rowSelection, setRowSelection] = React.useState({});
+  
   const table = useReactTable({
     data,
     columns,
@@ -262,34 +276,13 @@ React.useEffect(() => {
     }
   }, [table.getState().columnFilters[0]?.id]);
 
-  const handleDelete = async()=>{
-    const response = await fetch(`http://localhost:3000/users/${user?.id}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    });
-      console.log(response);
-    if (response.ok){
-      toast({
-        title: "User Deleted Successfully",
-      });
-      fetchData();
-    }
-  }
-  
+ 
+
   return (
-    <>
-      <div className="flex gap-4 m-6">
-        {edit && (
-          <>
-            <Button
-              variant={"secondary"}
-              onClick={() => handleDelete()}
-            >
-              Delete
-            </Button>
-          </>
-        )}
-      </div>
+    <> {edit && (
+            <Button variant={"secondary"} onClick={() => navigate("/clients")} className="m-6">
+              Show Data
+            </Button>)}
       <div className="w-11/12 sm:w-4/5 mx-auto my-10">
         <div className="rounded-md border">
           <Table>

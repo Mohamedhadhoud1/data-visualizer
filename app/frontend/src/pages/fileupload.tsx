@@ -44,6 +44,38 @@ const FileUpload: React.FC = () => {
     }
   };
 
+  // Define the keys you want to extract and the corresponding new keys
+  const keysToExtract = {
+    "Num dossier ": "folderName",
+    "Nom du titulaire":"name",
+    "Montant de vente":"salesAmount",
+    "Formation": "course",
+     "Date debut Formation": "dateStartCourse",
+    " Date Fin de formation": "dateEndCourse",
+    "Formation affectée":"courseActivated",
+    "LIEN DIGIFORMA":"courseLink",
+    "MAIL": "mail",
+  };
+
+  // Map through the array and transform each object
+  const transformedData2 = transformedData.map((item) => {
+    const newItem = {};
+
+    // Iterate over the keys in the original object
+    Object.keys(item).forEach((key) => {
+      // Check if the key is in the keysToExtract mapping
+      //@ts-ignore
+      if (keysToExtract[key]) {
+        // Use the mapped key for the new object
+        //@ts-ignore
+        newItem[keysToExtract[key]] = item[key];
+      }
+    });
+
+    return newItem;
+  });
+
+  console.log(transformedData);
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
@@ -56,10 +88,10 @@ const FileUpload: React.FC = () => {
       <button onClick={handleUpload}>Upload</button>
 
       {/* Display transformed data */}
-      {transformedData.length > 0 && (
+      {transformedData2.length > 0 && (
         <div>
           <h2>Transformed Data</h2>
-          <pre>{JSON.stringify(transformedData, null, 2)}</pre>
+          <pre>{JSON.stringify(transformedData2, null, 2)}</pre>
         </div>
       )}
     </div>

@@ -29,6 +29,7 @@ import { AddSeller } from "./pages/admin/sellers/addSeller.tsx";
 import { EditSeller } from "./pages/admin/sellers/editSeller.tsx";
 import {Seller} from "./interface/seller.ts"
 import { UsersTable } from "./pages/admin/users/usersTable.tsx";
+import SubSellersData from "./pages/subSellers/index";
 const Layout = () => {
   return (
     <>
@@ -54,6 +55,8 @@ const PrivateRoute = ({ children }) => {
       if (content.firstName) {
         setUser(content);
         console.log(content);
+      }else if(content.role==="admin"){
+        navigate('/admin')
       } else {
         setUser({});
         navigate("/login");
@@ -66,9 +69,11 @@ return children;
 
 const Adminroute = ({ children }) => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+  
+  console.log(user,'user')
   useEffect(()=>{
- if (user?.role !== "admin") {
+ if (user && user?.role != "admin") {
    navigate("/");
  }
   },[user?.role])
@@ -79,7 +84,7 @@ function App() {
   const [user, setUser] = useState();
   const [globalFilter, setGlobalFilter] = useState();
   const [seller, setSeller] = useState([]);
-  
+ 
 const router = createBrowserRouter([
   {
     path: "/",
@@ -91,23 +96,52 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: (
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/table",
-        element: <ClientsTable />,
+        element: (
+          <PrivateRoute>
+            <ClientsTable />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/clients",
-        element: <Client />,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <Client />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/subSellersData",
+        element: (
+          <PrivateRoute>
+            <SubSellersData />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/sitting",
-        element: <Sitting />,
+        element: (
+          <PrivateRoute>
+            <Sitting />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/file",
-        element: <FileUpload />,
+        element: (
+          <Adminroute>
+            <FileUpload />
+          </Adminroute>
+        ),
       },
       {
         path: "/admin",
@@ -119,30 +153,64 @@ const router = createBrowserRouter([
       },
       {
         path: "/addClient",
-        element: <AddClient />,
+        element: (
+          <Adminroute>
+            {" "}
+            <AddClient />
+          </Adminroute>
+        ),
       },
       {
         path: "/editClient",
-        element: <EditClient />,
+        element: (
+          <Adminroute>
+            {" "}
+            <EditClient />
+          </Adminroute>
+        ),
       },
       {
         path: "/sellers",
-        element: <SellersTable setSeller={setSeller} seller={seller} />,
+        element: (
+          <Adminroute>
+            {" "}
+            <SellersTable setSeller={setSeller} seller={seller} />
+          </Adminroute>
+        ),
       },
       {
         path: "/addSeller",
-        element: <AddSeller />,
+        element: (
+          <Adminroute>
+            {" "}
+            <AddSeller />
+          </Adminroute>
+        ),
       },
       {
         path: "/editSeller",
-        element: <EditSeller seller={seller} />,
+        element: (
+          <Adminroute>
+            {" "}
+            <EditSeller seller={seller} />
+          </Adminroute>
+        ),
       },
       {
         path: "/users",
-        element: <UsersTable />,
+        element: (
+          <Adminroute>
+            <UsersTable />
+          </Adminroute>
+        ),
       },
     ],
-    errorElement: <NotFound />,
+    errorElement: (
+      <Adminroute>
+        {" "}
+        <NotFound />
+      </Adminroute>
+    ),
   },
   {
     path: "/register",

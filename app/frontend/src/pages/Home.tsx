@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   Card,
@@ -14,17 +14,54 @@ import { Button } from "../components/ui/button";
 import { Euro, UsersRound } from "lucide-react";
 import { DataTable } from "./Table/homeTable";
 import { ClientContext } from "../context/clientContext";
-
+import { ClientData } from "@/interface/ClientData";
+import { toast } from "../components/ui/use-toast";
+import { UserContext } from "../context/userContext";
 const Home = () => {
   const { client } = useContext(ClientContext);
-  console.log(client, "bla");
+  const {user} = useContext(UserContext);
+  const [data, setData] = useState<ClientData[]>();
+  console.log(user, "bla1");
+  useEffect(()=>{
+    const fetchData = async () => {
+      if (!user?.userName) {
+        //console.error("User is undefined or has no userName");
+         toast({
+           title: "Data Was Not Fetched Successfully",
+           variant: "destructive",
+         });
+        return;
+      }
+      const response = await fetch(`http://localhost:3000/data/seller/${user?.userName}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const content = await response.json();
+      console.log(content, "kkk");
+      if (content.statusCode!==500) {
+        console.log(content, "kkk2");
+        setData(content);
+        toast({
+          title: "Data Fetched Successfully",
+          variant:"success",
+        });
+      }else{
+        toast({
+          title: "Data Was Not Fetched Successfully",
+          variant: "destructive",
+        });
+      }
+    };
+    fetchData();
+  },[])
   return (
     <>
       <div className="flex sm:flex-row flex-col justify-between sm:justify-around gap-4 sm:mx-2 my-10 mx-2 items-center">
         <Card className="sm:w-1/4 h-max w-4/5 ">
           <CardContent className="flex flex-row items-center justify-between w-full p-3">
             <div>
-              <p className="font-extrabold text-3xl">45</p>
+              <p className="font-extrabold text-3xl">{data?.length}</p>
               <p>Clients</p>
             </div>
             <Button className="h-min cursor-default pointer-events-none">
@@ -36,7 +73,7 @@ const Home = () => {
           <CardContent className="flex flex-row items-center justify-between w-full p-3">
             <div>
               <p className="font-extrabold text-3xl">{client?.salesAmount}</p>
-              <p>Clients</p>
+              <p>Revenu Total</p>
             </div>
             <Button className="h-min cursor-default pointer-events-none">
               <Euro size="48px" />
