@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
+import { hostname } from 'os';
 dotenv.config();
 
 async function bootstrap() {
@@ -13,6 +14,6 @@ async function bootstrap() {
     credentials: true,
     allowedHeaders: ['Content-Type'],
   });
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
 }
 bootstrap();
