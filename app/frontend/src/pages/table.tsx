@@ -49,7 +49,8 @@ import {
 import { ClientContext } from "../context/clientContext";
 import { redirect, useNavigate } from "react-router-dom";
 import { SearchContext } from "../context/searchContext";
-
+import { toast } from "../components/ui/use-toast";
+import { UserContext } from "../context/userContext";
 declare module "@tanstack/table-core" {
   interface FilterFns {
     fuzzy: FilterFn<unknown>;
@@ -167,6 +168,7 @@ const tempData: Person[] = [
 ];
 export function ClientsTable() {
   const { setClient } = React.useContext(ClientContext);
+  const { user } = React.useContext(UserContext);
   const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
   const navigate = useNavigate();
   const rerender = React.useReducer(() => ({}), {})[1];
@@ -213,7 +215,42 @@ export function ClientsTable() {
 
   const [data, setData] = React.useState<Person[]>(tempData);
   const refreshData = () => setData((old) => makeData(50000));
+ React.useEffect(() => {
+   const fetchData = async () => {
+     if (!user?.userName) {
+       //console.error("User is undefined or has no userName");
+       toast({
+         title: "Data Was Not Fetched Successfully",
+         variant: "destructive",
+       });
+       return;
+     }
+     const response = await fetch(
+       `http://localhost:3000/data/seller/${user?.userName}`,
+       {
+         method: "GET",
+         headers: { "Content-Type": "application/json" },
+       }
+     );
 
+     const content = await response.json();
+     console.log(content, "kkk");
+     if (content.statusCode !== 500) {
+       console.log(content, "kkk2");
+       setData(content);
+       toast({
+         title: "Data Fetched Successfully",
+         variant: "success",
+       });
+     } else {
+       toast({
+         title: "Data Was Not Fetched Successfully",
+         variant: "destructive",
+       });
+     }
+   };
+   fetchData();
+ }, [user?.userName]);
   const table = useReactTable({
     data,
     columns,

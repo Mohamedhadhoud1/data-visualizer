@@ -25,7 +25,7 @@ const FileUpload: React.FC = () => {
             const headers: string[] = (
               XLSX.utils.sheet_to_json(sheet, {
                 header: 1,
-                range: 1, // Use the second row as headers
+                range: 0, // Use the second row as headers
               }) as any
             )[0].map((header: any) => String(header));
 

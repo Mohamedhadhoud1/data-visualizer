@@ -85,6 +85,22 @@ function App() {
   const [globalFilter, setGlobalFilter] = useState();
   const [seller, setSeller] = useState([]);
  
+useEffect(() => {
+  const fetchUser = async () => {
+    const response = await fetch("http://localhost:3000/users/user", {
+      method: "GET",
+      headers: { "Content-Type": "application/json", Origin: "*" },
+      credentials: "include",
+    });
+    const content = await response.json();
+    if (content.firstName) {
+      setUser(content);
+      console.log(content);
+    }
+  };
+  fetchUser();
+}, [user?.id]);
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -138,9 +154,9 @@ const router = createBrowserRouter([
       {
         path: "/file",
         element: (
-          <Adminroute>
+          // <Adminroute>
             <FileUpload />
-          </Adminroute>
+          // </Adminroute>
         ),
       },
       {

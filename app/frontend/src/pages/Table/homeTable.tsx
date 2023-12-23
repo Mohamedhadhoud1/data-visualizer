@@ -48,6 +48,7 @@ import {
 } from "../../components/ui/table";
 import { ClientContext } from "../../context/clientContext";
 import { SearchContext } from "../../context/searchContext";
+import { ClientData } from "@/interface/ClientData";
 
 declare module "@tanstack/table-core" {
   interface FilterFns {
@@ -164,7 +165,7 @@ const tempData: Person[] = [
     courseCode: "test",
   },
 ];
-export function DataTable() {
+export function DataTable(props:{data:ClientData[]}) {
   const { setClient } = React.useContext(ClientContext);
   const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
   const rerender = React.useReducer(() => ({}), {})[1];
@@ -208,9 +209,14 @@ export function DataTable() {
     ],
     []
   );
-
-  const [data, setData] = React.useState<Person[]>(tempData);
-  const refreshData = () => setData((old) => makeData(50000));
+  //@ts-ignore
+  const [data, setData] = React.useState<ClientData[]>(props.data);
+    React.useEffect(() => {
+      setData(props?.data);
+      table.setPageSize(5);
+      setClient(data[0]);
+    }, [props.data.length,data.length]);
+  //const refreshData = () => setData((old) => makeData(50000));
   console.log(data);
   const table = useReactTable({
     data,
@@ -236,6 +242,8 @@ export function DataTable() {
     debugHeaders: true,
     debugColumns: false,
   });
+  
+
 
   React.useEffect(() => {
     if (table.getState().columnFilters[0]?.id === "fullName") {
@@ -245,16 +253,13 @@ export function DataTable() {
     }
   }, [table.getState().columnFilters[0]?.id]);
 
-  React.useEffect(() => {
-    table.setPageSize(5);
-    setClient(tempData[0]);
-  }, []);
+
   return (
     <div className="w-11/12 sm:w-4/5 mx-auto">
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table?.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
@@ -292,7 +297,7 @@ export function DataTable() {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {table?.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -314,7 +319,7 @@ export function DataTable() {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={columns?.length}
                   className="h-24 text-center"
                 >
                   No results.

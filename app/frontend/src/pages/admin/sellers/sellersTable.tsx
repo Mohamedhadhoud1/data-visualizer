@@ -251,6 +251,9 @@ export function SellersTable(props: {
 
   return (
     <>
+      <p className="text-center text-3xl font-extrabold my-4">
+        Sellers
+      </p>
       <div className="flex gap-4 m-6">
         <Button variant={"secondary"} onClick={() => navigate("/addSeller")}>
           Add

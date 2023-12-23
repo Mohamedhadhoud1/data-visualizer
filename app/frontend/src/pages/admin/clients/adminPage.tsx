@@ -4,6 +4,7 @@ import { AdminTable } from "./adminTable";
 function AdminPage() {
   return (
     <div>
+      <p className="text-center text-3xl font-extrabold my-4">Clients</p>
       <AdminTable />
     </div>
   );

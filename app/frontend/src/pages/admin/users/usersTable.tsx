@@ -278,13 +278,11 @@ React.useEffect(() => {
   
   return (
     <>
+      <p className="text-center text-3xl font-extrabold my-4">Registered Users </p>
       <div className="flex gap-4 m-6">
         {edit && (
           <>
-            <Button
-              variant={"secondary"}
-              onClick={() => handleDelete()}
-            >
+            <Button variant={"secondary"} onClick={() => handleDelete()}>
               Delete
             </Button>
           </>

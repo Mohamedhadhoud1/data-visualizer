@@ -20,7 +20,7 @@ import { UserContext } from "../context/userContext";
 const Home = () => {
   const { client } = useContext(ClientContext);
   const {user} = useContext(UserContext);
-  const [data, setData] = useState<ClientData[]>();
+  const [data, setData] = useState<ClientData[]>([]);
   console.log(user, "bla1");
   useEffect(()=>{
     const fetchData = async () => {
@@ -54,7 +54,19 @@ const Home = () => {
       }
     };
     fetchData();
-  },[])
+  },[user?.userName])
+
+  const convertCurrencyStringToNumber = (currencyString:string) => {
+    const numericString = currencyString.replace(/[^\d.-]/g, ""); // Remove non-numeric characters
+    return parseFloat(numericString);
+  };
+
+  // Calculate the sum of salesAmount values
+  const totalSales = data?.reduce((sum, item) => {
+    const salesAmount = convertCurrencyStringToNumber(item.salesAmount);
+    return sum + salesAmount;
+  }, 0);
+  console.log(totalSales,'sale');
   return (
     <>
       <div className="flex sm:flex-row flex-col justify-between sm:justify-around gap-4 sm:mx-2 my-10 mx-2 items-center">
@@ -72,7 +84,7 @@ const Home = () => {
         <Card className="sm:w-1/4 h-max w-4/5">
           <CardContent className="flex flex-row items-center justify-between w-full p-3">
             <div>
-              <p className="font-extrabold text-3xl">{client?.salesAmount}</p>
+              <p className="font-extrabold text-3xl">{'€ '+totalSales}</p>
               <p>Revenu Total</p>
             </div>
             <Button className="h-min cursor-default pointer-events-none">
@@ -112,7 +124,7 @@ const Home = () => {
           </div>
         </CardFooter>
       </Card>
-      <DataTable />
+      <DataTable data={data}/>
     </>
   );
 };

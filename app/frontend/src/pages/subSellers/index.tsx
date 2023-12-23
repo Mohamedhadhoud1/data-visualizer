@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ClientData } from "@/interface/ClientData";
 import { SubSellersDataTable } from "./subSellersDataTable";
 import { toast } from "../../components/ui/use-toast";
+import { UserContext } from "../../context/userContext";
 type MyGroupType = {
   [key: string]: ClientData;
 };
 function SubSellersData() {
     const [data, setData] = useState<MyGroupType[]|undefined>();
+    const {user} = useContext(UserContext);
     useEffect(()=>{
          const fetchData = async () => {
            console.log("jjj");
            const response = await fetch(
-             "http://localhost:3000/data/subInd/test2",
+             `http://localhost:3000/data/subInd/test2`,
              {
                method: "GET",
                headers: { "Content-Type": "application/json" },
@@ -33,7 +35,7 @@ function SubSellersData() {
     },[])
   return (
     <div>
-      {data &&
+      {data ?(
         data.map((group, index) => {
           console.log(Object.keys(group)[0]);
           
@@ -43,7 +45,7 @@ function SubSellersData() {
               {//@ts-ignore
               <SubSellersDataTable key={index} data={Object.values(group)[0]} />
               }</div>
-          );})}
+          );})):<p className="font-extrabold text-3xl text-red-500 text-center my-20">There's NO Sub Clients</p>}
     </div>
   );
 }
