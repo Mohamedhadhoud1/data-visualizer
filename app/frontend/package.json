@@ -75,5 +75,6 @@
     "@typescript-eslint/typescript-estree": "^5.57.1",
     "fork-ts-checker-webpack-plugin": "^6.5.3",
     "typescript": "^5.3.2"
-  }
+  },
+  "proxy": "https://data-visualizer-production.up.railway.app/"
 }
