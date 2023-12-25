@@ -20,7 +20,7 @@ import { Sellers } from './sellers/entities/seller.entity';
       password: '1234',
       database: 'dataVisualizer',
       entities: [User, Data, Sellers],
-      synchronize: true,
+      synchronize: false,
     }),
     DataModule,
     SellersModule,
