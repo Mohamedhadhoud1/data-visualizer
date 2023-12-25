@@ -47,7 +47,6 @@ export function Login() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Origin":"*"
         },
         credentials: "include",
         body: JSON.stringify(data),
