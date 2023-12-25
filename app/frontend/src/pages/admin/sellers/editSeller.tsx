@@ -52,7 +52,6 @@ export function EditSeller(props:{seller:Seller|undefined}) {
       `https://data-visualizer-production.up.railway.app/sellers/${props.seller?.id}`,
       {
         method: "PATCH",
-        mode:"no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }

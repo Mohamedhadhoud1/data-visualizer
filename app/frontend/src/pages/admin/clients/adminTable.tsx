@@ -304,7 +304,6 @@ React.useEffect(() => {
       `https://data-visualizer-production.up.railway.app/data/${client?.id}`,
       {
         method: "DELETE",
-        mode:"no-cors",
         headers: { "Content-Type": "application/json" },
       }
     );

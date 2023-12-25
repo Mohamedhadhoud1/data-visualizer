@@ -180,7 +180,6 @@ export function SellersTable(props: {
       "https://data-visualizer-production.up.railway.app/sellers",
       {
         method: "GET",
-        mode:"no-cors",
         headers: { "Content-Type": "application/json" },
       }
     );

@@ -16,7 +16,6 @@ function SubSellersData() {
              `https://data-visualizer-production.up.railway.app/data/subInd/test2`,
              {
                method: "GET",
-               mode:"no-cors",
                headers: { "Content-Type": "application/json" },
              }
            );

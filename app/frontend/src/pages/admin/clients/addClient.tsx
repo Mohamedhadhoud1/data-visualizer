@@ -60,7 +60,6 @@ export function AddClient() {
       "https://data-visualizer-production.up.railway.app/data/addOne",
       {
         method: "POST",
-        mode:"no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }

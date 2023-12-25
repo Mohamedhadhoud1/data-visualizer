@@ -63,7 +63,6 @@ export function EditClient() {
       `https://data-visualizer-production.up.railway.app/data/${client?.id}`,
       {
         method: "PATCH",
-        mode:"no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }

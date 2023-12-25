@@ -36,8 +36,7 @@ function NavBar() {
        "https://data-visualizer-production.up.railway.app/users/logout",
        {
          method: "POST",
-         mode:"no-cors",
-         headers: { "Content-Type": "application/json", Origin: "*" },
+         headers: { "Content-Type": "application/json" },
          credentials: "include",
        }
      );

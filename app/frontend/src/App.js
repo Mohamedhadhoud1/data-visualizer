@@ -50,8 +50,7 @@ const PrivateRoute = ({ children }) => {
         "https://data-visualizer-production.up.railway.app/users/user",
         {
           method: "GET",
-          mode:"no-cors",
-          headers: { "Content-Type": "application/json", Origin: "*" },
+          headers: { "Content-Type": "application/json"},
           credentials: "include",
         }
       );
@@ -95,8 +94,7 @@ useEffect(() => {
       "https://data-visualizer-production.up.railway.app/users/user",
       {
         method: "GET",
-        mode:"no-cors",
-        headers: { "Content-Type": "application/json", Origin: "*" },
+        headers: { "Content-Type": "application/json"},
         credentials: "include",
       }
     );

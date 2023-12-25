@@ -60,7 +60,15 @@ export function Register() {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          firstName:data.firstName,
+          lastName:data.lastName,
+          email:data.email,
+          userName: data.userName,
+          password:data.password,
+          role:"admin"
+        
+        }),
       }
     );
 

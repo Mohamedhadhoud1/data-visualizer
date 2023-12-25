@@ -48,7 +48,6 @@ export function AddSeller() {
       "https://data-visualizer-production.up.railway.app/sellers/addOne",
       {
         method: "POST",
-        mode:"no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }
