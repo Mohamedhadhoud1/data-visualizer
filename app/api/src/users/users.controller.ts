@@ -58,7 +58,7 @@ export class UsersController {
       const jwt = await this.jwtService.signAsync({ id: user.id });
 
       response.cookie('jwt', jwt, { httpOnly: true });
-      console.log("1",new Date());
+      console.log('1', new Date());
       return {
         message: 'success',
       };
@@ -73,14 +73,13 @@ export class UsersController {
   @Get('user')
   async user(@Req() request: Request) {
     try {
-      console.log('jwt');
       const cookie = request.cookies['jwt'];
-      const cookie2 = request.cookies['_vercel_jwt'];
-      console.log("2",new Date());
+      console.log('JWT Cookie:', cookie);
+      if (!cookie) {
+        throw new UnauthorizedException('JWT cookie is missing');
+      }
       const data = await this.jwtService.verifyAsync(cookie);
-      console.log('jwt : ', data, cookie, ' ', cookie2);
       if (!data) {
-        console.log('jwt2 : ', data, cookie, ' ', cookie2);
         throw new UnauthorizedException();
       }
       const id: number = data['id'];
@@ -90,6 +89,7 @@ export class UsersController {
       console.log('result', result);
       return result;
     } catch (e) {
+      console.error('JWT Verification Error:', e);
       throw new UnauthorizedException();
     }
   }
