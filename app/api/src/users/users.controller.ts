@@ -78,13 +78,14 @@ export class UsersController {
       const data = await this.jwtService.verifyAsync(cookie);
       console.log('jwt : ', data, cookie, ' ', cookie2);
       if (!data) {
+        console.log('jwt2 : ', data, cookie, ' ', cookie2);
         throw new UnauthorizedException();
       }
       const id: number = data['id'];
       const user = await this.usersService.findOne(id);
 
       const { password, ...result } = user;
-
+      console.log('result', result);
       return result;
     } catch (e) {
       throw new UnauthorizedException();
