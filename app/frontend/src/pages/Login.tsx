@@ -47,6 +47,8 @@ export function Login() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Origin:
+            "https://data-visualizer-gghew9ags-mohamedhadhoud1.vercel.app",
         },
         credentials: "include",
         body: JSON.stringify(data),
