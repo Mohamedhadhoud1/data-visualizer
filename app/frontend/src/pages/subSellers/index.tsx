@@ -13,9 +13,10 @@ function SubSellersData() {
          const fetchData = async () => {
            console.log("jjj");
            const response = await fetch(
-             `http://localhost:3000/data/subInd/test2`,
+             `https://data-visualizer-production.up.railway.app/data/subInd/test2`,
              {
                method: "GET",
+               mode:"no-cors",
                headers: { "Content-Type": "application/json" },
              }
            );

@@ -59,11 +59,15 @@ export function EditClient() {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log(data, client.id, "hhh");
-    const response = await fetch(`http://localhost:3000/data/${client?.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `https://data-visualizer-production.up.railway.app/data/${client?.id}`,
+      {
+        method: "PATCH",
+        mode:"no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    );
 
     const content = await response.json();
     if (content.message === "success") {

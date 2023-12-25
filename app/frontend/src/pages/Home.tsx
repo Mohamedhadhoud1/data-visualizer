@@ -32,10 +32,14 @@ const Home = () => {
          });
         return;
       }
-      const response = await fetch(`http://localhost:3000/data/seller/${user?.userName}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await fetch(
+        `https://data-visualizer-production.up.railway.app/data/seller/${user?.userName}`,
+        {
+          method: "GET",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       const content = await response.json();
       console.log(content, "kkk");

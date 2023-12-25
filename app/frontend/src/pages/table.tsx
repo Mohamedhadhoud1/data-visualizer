@@ -226,9 +226,10 @@ export function ClientsTable() {
        return;
      }
      const response = await fetch(
-       `http://localhost:3000/data/seller/${user?.userName}`,
+       `https://data-visualizer-production.up.railway.app/data/seller/${user?.userName}`,
        {
          method: "GET",
+         mode: "no-cors",
          headers: { "Content-Type": "application/json" },
        }
      );

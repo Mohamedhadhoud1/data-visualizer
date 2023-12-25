@@ -44,11 +44,15 @@ export function AddSeller() {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log("haha");
-    const response = await fetch("http://localhost:3000/sellers/addOne", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      "https://data-visualizer-production.up.railway.app/sellers/addOne",
+      {
+        method: "POST",
+        mode:"no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    );
 
     const content = await response.json();
     if (content) {

@@ -48,8 +48,6 @@ export function Login() {
         mode:"no-cors",
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Headers":
-            "https://data-visualizer-production.up.railway.app",
         },
         credentials: "include",
         body: JSON.stringify(data),

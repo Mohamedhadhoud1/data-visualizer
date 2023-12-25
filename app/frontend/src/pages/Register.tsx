@@ -55,13 +55,15 @@ export function Register() {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    const response = await fetch("/users/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(
-       data
-    ),
-    });
+    const response = await fetch(
+      "https://data-visualizer-production.up.railway.app/users/register",
+      {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    );
 
     const content = await response.json();
      if (content.message) {

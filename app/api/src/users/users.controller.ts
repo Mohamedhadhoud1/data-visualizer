@@ -45,21 +45,29 @@ export class UsersController {
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const { email, password } = loginDto;
-    const user = await this.usersService.findUser(email);
-    if (!user) {
-      throw new BadRequestException('User Not Found');
-    }
-    if (!(await bcrypt.compare(password, user.password))) {
-      throw new BadRequestException('Password Is Wrong');
-    }
-    const jwt = await this.jwtService.signAsync({ id: user.id });
+    try {
+      const { email, password } = loginDto;
+      const user = await this.usersService.findUser(email);
+      if (!user) {
+        throw new BadRequestException('User Not Found');
+      }
+      if (!(await bcrypt.compare(password, user.password))) {
+        throw new BadRequestException('Password Is Wrong');
+      }
+      const jwt = await this.jwtService.signAsync({ id: user.id });
 
-    response.cookie('jwt', jwt, { httpOnly: true });
+      response.cookie('jwt', jwt, { httpOnly: true });
 
-    return {
-      message: 'success',
-    };
+      return {
+        message: 'success',
+      };
+    } catch (error) {
+      // Log the error or handle it appropriately
+      console.error('Login error:', error);
+
+      // Rethrow the error so NestJS can handle it
+      throw new BadRequestException('Invalid login credentials');
+    }
   }
   @Get('user')
   async user(@Req() request: Request) {

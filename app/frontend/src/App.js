@@ -46,11 +46,15 @@ const PrivateRoute = ({ children }) => {
   
   useEffect(() => {
     const fetchUser = async () => {
-      const response = await fetch("http://localhost:3000/users/user", {
-        method: "GET",
-        headers: { "Content-Type": "application/json", Origin: "*" },
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://data-visualizer-production.up.railway.app/users/user",
+        {
+          method: "GET",
+          mode:"no-cors",
+          headers: { "Content-Type": "application/json", Origin: "*" },
+          credentials: "include",
+        }
+      );
       const content = await response.json();
       if (content.firstName) {
         setUser(content);
@@ -87,11 +91,15 @@ function App() {
  
 useEffect(() => {
   const fetchUser = async () => {
-    const response = await fetch("http://localhost:3000/users/user", {
-      method: "GET",
-      headers: { "Content-Type": "application/json", Origin: "*" },
-      credentials: "include",
-    });
+    const response = await fetch(
+      "https://data-visualizer-production.up.railway.app/users/user",
+      {
+        method: "GET",
+        mode:"no-cors",
+        headers: { "Content-Type": "application/json", Origin: "*" },
+        credentials: "include",
+      }
+    );
     const content = await response.json();
     if (content.firstName) {
       setUser(content);

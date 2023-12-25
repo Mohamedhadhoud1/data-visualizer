@@ -48,11 +48,15 @@ export function EditSeller(props:{seller:Seller|undefined}) {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    const response = await fetch(`http://localhost:3000/sellers/${props.seller?.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `https://data-visualizer-production.up.railway.app/sellers/${props.seller?.id}`,
+      {
+        method: "PATCH",
+        mode:"no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    );
 
     const content = await response.json();
     if (content.affected === 1) {

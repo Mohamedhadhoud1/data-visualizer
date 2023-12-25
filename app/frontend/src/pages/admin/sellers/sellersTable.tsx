@@ -176,10 +176,14 @@ export function SellersTable(props: {
   const [rowSelection, setRowSelection] = React.useState({});
   const fetchData = async () => {
     console.log("jjj");
-    const response = await fetch("http://localhost:3000/sellers", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await fetch(
+      "https://data-visualizer-production.up.railway.app/sellers",
+      {
+        method: "GET",
+        mode:"no-cors",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
 
     const content = await response.json();
     console.log(content, "kkk");

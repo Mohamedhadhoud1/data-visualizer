@@ -263,10 +263,14 @@ React.useEffect(() => {
   }, [table.getState().columnFilters[0]?.id]);
 
   const handleDelete = async()=>{
-    const response = await fetch(`http://localhost:3000/users/${user?.id}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await fetch(
+      `https://data-visualizer-production.up.railway.app/users/${user?.id}`,
+      {
+        method: "DELETE",
+        mode:"no-cors",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
       console.log(response);
     if (response.ok){
       toast({

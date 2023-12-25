@@ -27,18 +27,22 @@ export function Sitting() {
   const { toast } = useToast();
 
   const updateName = async ()=>{
-      const response = await fetch(`http://localhost:3000/users/${user?.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          updateUserDto: {
-            firstName: firstName,
-            lastName: lastName,
-            userName: userName,
-          }
-        }),
-      });
+      const response = await fetch(
+        `https://data-visualizer-production.up.railway.app/users/${user?.id}`,
+        {
+          method: "PATCH",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            updateUserDto: {
+              firstName: firstName,
+              lastName: lastName,
+              userName: userName,
+            },
+          }),
+        }
+      );
 
       const content = await response.json();
       console.log(content);
@@ -56,15 +60,19 @@ export function Sitting() {
   }
    const updatePassword = async () => {
     //if(currentPassword===user.password)
-     const response = await fetch(`http://localhost:3000/users/${user?.id}`, {
-       method: "PATCH",
-       headers: { "Content-Type": "application/json" },
-       credentials: "include",
-       body: JSON.stringify({
-         updateUserDto: { password: newPassword },
-         currentPassword: currentPassword,
-       }),
-     });
+     const response = await fetch(
+       `https://data-visualizer-production.up.railway.app/users/${user?.id}`,
+       {
+         method: "PATCH",
+         mode: "no-cors",
+         headers: { "Content-Type": "application/json" },
+         credentials: "include",
+         body: JSON.stringify({
+           updateUserDto: { password: newPassword },
+           currentPassword: currentPassword,
+         }),
+       }
+     );
 
      const content = await response.json();
      console.log(content);
