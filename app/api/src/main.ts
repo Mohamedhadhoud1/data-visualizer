@@ -10,10 +10,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
   app.use(cookieParser());
   app.enableCors({
-    origin: [
-      'https://data-visualizer-2szambpc7-mohamedhadhoud1.vercel.app',
-      'https://data-visualizer-production.up.railway.app',
-    ],
+    origin: 'https://data-visualizer-2szambpc7-mohamedhadhoud1.vercel.app',
     credentials: true,
     allowedHeaders: ['Content-Type'],
   });
