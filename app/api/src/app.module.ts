@@ -21,6 +21,9 @@ import { Sellers } from './sellers/entities/seller.entity';
       database: 'bcrvmdwsjhpor42lyxzw',
       entities: [User, Data, Sellers],
       synchronize: false,
+      extra: {
+        connectionLimit: 5,
+      },
     }),
     DataModule,
     SellersModule,
