@@ -50,7 +50,10 @@ const PrivateRoute = ({ children }) => {
         "https://data-visualizer-production.up.railway.app/users/user",
         {
           method: "GET",
-          headers: { "Content-Type": "application/json","Origin":"*"},
+          headers: {
+            "Content-Type": "application/json",
+            "Origin": "https://data-visualizer-xi.vercel.app",
+          },
           credentials: "include",
         }
       );
