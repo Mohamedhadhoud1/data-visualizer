@@ -58,7 +58,7 @@ export class UsersController {
       const jwt = await this.jwtService.signAsync({ id: user.id });
       console.log('hhe', jwt);
       response.cookie('jwt', jwt, {
-        domain: 'https://data-visualizer-gghew9ags-mohamedhadhoud1.vercel.app/',
+        domain: 'https://data-visualizer-xi.vercel.app',
         secure: true,
       });
       console.log('1', new Date());
