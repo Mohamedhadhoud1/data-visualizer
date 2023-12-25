@@ -57,7 +57,7 @@ export class UsersController {
       }
       const jwt = await this.jwtService.signAsync({ id: user.id });
       console.log('hhe', jwt);
-      response.cookie('jwt', jwt, { httpOnly: true, path: '/', sameSite: 'None', secure: true  });
+      response.cookie('jwt', jwt, { httpOnly: true, path: '/', sameSite: false, secure: true  });
       console.log('1', new Date());
       return {
         message: 'success',
