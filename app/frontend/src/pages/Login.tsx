@@ -41,14 +41,20 @@ export function Login() {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    const response = await fetch("/users/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" ,"Origin":"*"},
-      credentials: "include",
-      body: JSON.stringify(
-       data
-      ),
-    });
+    const response = await fetch(
+      "https://data-visualizer-production.up.railway.app/users/login",
+      {
+        method: "POST",
+        mode:"no-cors",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers":
+            "https://data-visualizer-production.up.railway.app",
+        },
+        credentials: "include",
+        body: JSON.stringify(data),
+      }
+    );
 
     const content = await response.json();
     console.log(content);
