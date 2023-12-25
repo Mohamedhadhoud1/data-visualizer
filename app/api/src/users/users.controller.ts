@@ -74,9 +74,9 @@ export class UsersController {
   async user(@Req() request: Request) {
     try {
       const cookie = request.cookies['jwt'];
-
+      const cookie2 = request.cookies['_vercel_jwt'];
       const data = await this.jwtService.verifyAsync(cookie);
-
+      console.log('jwt : ', data, cookie, ' ', cookie2);
       if (!data) {
         throw new UnauthorizedException();
       }
