@@ -61,7 +61,13 @@ export function Register() {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ createUserDto :{
+          firstName:data.firstName,
+          lastName:data.lastName,
+          email:data.email,
+          userName:data.userName,
+          password:data.password,
+        }}),
       }
     );
 
