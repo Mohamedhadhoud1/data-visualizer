@@ -56,7 +56,7 @@ export class UsersController {
         throw new BadRequestException('Password Is Wrong');
       }
       const jwt = await this.jwtService.signAsync({ id: user.id });
-
+      console.log('hhe', jwt);
       response.cookie('jwt', jwt, { httpOnly: true });
       console.log('1', new Date());
       return {

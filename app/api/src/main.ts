@@ -10,7 +10,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
   app.use(cookieParser());
   app.enableCors({
-    origin: true,
+    origin: "*",
     credentials: true,
     allowedHeaders: ['Content-Type'],
   });
