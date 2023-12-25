@@ -6,11 +6,14 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
   const port = process.env.PORT || 3000;
   app.use(cookieParser());
   app.enableCors({
-    origin: true,
+    origin: [
+      'https://data-visualizer-2szambpc7-mohamedhadhoud1.vercel.app',
+      'https://data-visualizer-production.up.railway.app',
+    ],
     credentials: true,
     allowedHeaders: ['Content-Type'],
   });
