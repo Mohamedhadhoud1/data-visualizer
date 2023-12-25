@@ -17,7 +17,7 @@ import { Sellers } from './sellers/entities/seller.entity';
       host: 'bcrvmdwsjhpor42lyxzw-postgresql.services.clever-cloud.com',
       port: 50013,
       username: 'utdijkqd1pwmjfb7lseb',
-      password: '1234',
+      password: 'Mpu4unyQqXt7FkcYYQJu4EseUjJKM5',
       database: 'bcrvmdwsjhpor42lyxzw',
       entities: [User, Data, Sellers],
       synchronize: false,
