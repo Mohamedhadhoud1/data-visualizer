@@ -51,6 +51,7 @@ export class UsersController {
       if (!user) {
         throw new BadRequestException('User Not Found');
       }
+      console.log('Shit : ', user, password, user.password);
       if (!(await bcrypt.compare(password, user.password))) {
         throw new BadRequestException('Password Is Wrong');
       }

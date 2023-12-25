@@ -32,11 +32,15 @@ function NavBar() {
  
 
    const logOut = async () => {
-     const response = await fetch("http://localhost:3000/users/logout", {
-       method: "POST",
-       headers: { "Content-Type": "application/json", Origin: "*" },
-       credentials: "include",
-     });
+     const response = await fetch(
+       "https://data-visualizer-production.up.railway.app/users/logout",
+       {
+         method: "POST",
+         mode:"no-cors",
+         headers: { "Content-Type": "application/json", Origin: "*" },
+         credentials: "include",
+       }
+     );
    };
   return (
     <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-white py-2 shadow-md shadow-black/5 dark:bg-black dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
