@@ -45,15 +45,11 @@ export function Login() {
       "https://data-visualizer-production.up.railway.app/users/login",
       {
         method: "POST",
-        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({loginDto:{
-          email:data.email,
-          password:data.password
-        }}),
+        body: JSON.stringify(data),
       }
     );
 

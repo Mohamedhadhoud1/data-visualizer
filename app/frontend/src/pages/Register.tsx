@@ -59,15 +59,8 @@ export function Register() {
       "https://data-visualizer-production.up.railway.app/users/register",
       {
         method: "POST",
-        mode: "no-cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ createUserDto :{
-          firstName:data.firstName,
-          lastName:data.lastName,
-          email:data.email,
-          userName:data.userName,
-          password:data.password,
-        }}),
+        body: JSON.stringify(data),
       }
     );
 

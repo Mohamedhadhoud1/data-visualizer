@@ -229,7 +229,6 @@ export function ClientsTable() {
        `https://data-visualizer-production.up.railway.app/data/seller/${user?.userName}`,
        {
          method: "GET",
-         mode: "no-cors",
          headers: { "Content-Type": "application/json" },
        }
      );
