@@ -50,7 +50,7 @@ const PrivateRoute = ({ children }) => {
         "https://data-visualizer-production.up.railway.app/users/user",
         {
           method: "GET",
-          headers: { "Content-Type": "application/json"},
+          headers: { "Content-Type": "application/json","Origin":"*"},
           credentials: "include",
         }
       );
@@ -58,11 +58,11 @@ const PrivateRoute = ({ children }) => {
       if (content.firstName) {
         setUser(content);
         console.log(content);
-      }else if(content.role==="admin"){
-        navigate('/admin')
-      } else {
-        setUser({});
-        navigate("/login");
+      // }else if(content.role==="admin"){
+      //   navigate('/admin')
+      // } else {
+      //   setUser({});
+      //   navigate("/login");
       }
     };
     fetchUser();
@@ -94,7 +94,7 @@ useEffect(() => {
       "https://data-visualizer-production.up.railway.app/users/user",
       {
         method: "GET",
-        headers: { "Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json","Origin":"*"},
         credentials: "include",
       }
     );
@@ -104,7 +104,7 @@ useEffect(() => {
       console.log(content);
     }
   };
-  fetchUser();
+  //fetchUser();
 }, [user?.id]);
 
 const router = createBrowserRouter([
