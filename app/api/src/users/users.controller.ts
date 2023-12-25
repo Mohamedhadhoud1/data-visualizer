@@ -57,7 +57,10 @@ export class UsersController {
       }
       const jwt = await this.jwtService.signAsync({ id: user.id });
       console.log('hhe', jwt);
-      response.cookie('jwt', jwt);
+      response.cookie('jwt', jwt, {
+        domain: 'https://data-visualizer-production.up.railway.app',
+        secure: true,
+      });
       console.log('1', new Date());
       return {
         message: 'success',
