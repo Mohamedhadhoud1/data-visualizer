@@ -91,7 +91,10 @@ export class DataService {
         const sellerData = await this.dataRepository.find({
           where: { seller: sellerName },
         });
-        return { [sellerName]: sellerData };
+        const subSeller = await this.sellerRepository.findOne({
+          where: { code: sellerName },
+        });
+        return { [subSeller.subSellerName]: sellerData };
       }),
     );
 

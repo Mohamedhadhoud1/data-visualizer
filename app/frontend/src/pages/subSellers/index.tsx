@@ -30,7 +30,7 @@ function SubSellersData() {
     <div>
       {data ?(
         data.map((group, index) => {
-          console.log(group);
+          console.log(data);
           return (
             <div className="my-8">
               <p className="text-center text-3xl font-extrabold">{Object.keys(group)[1]}</p>
