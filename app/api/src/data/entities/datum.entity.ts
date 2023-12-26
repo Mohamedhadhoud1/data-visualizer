@@ -24,6 +24,6 @@ export class Data {
   courseAcivated: string;
   @Column({ name: 'courselink' })
   courseLink: string;
-  @Column({ name: 'coursecode' })
-  courseCode: string;
+  // @Column({ name: 'coursecode' })
+  // courseCode: string;
 }
