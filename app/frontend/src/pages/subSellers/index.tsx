@@ -12,7 +12,7 @@ function SubSellersData() {
     useEffect(()=>{
          const fetchData = async () => {
            const response = await fetch(
-             `https://data-visualizer-production.up.railway.app/data/subInd/${user.userName}`,
+             `https://data-visualizer-production.up.railway.app/data/subInd/${user?.userName}`,
              {
                method: "GET",
                headers: { "Content-Type": "application/json", "Origin": "*" },

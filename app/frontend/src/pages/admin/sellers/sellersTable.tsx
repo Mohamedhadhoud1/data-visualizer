@@ -229,10 +229,10 @@ export function SellersTable(props: {
 
   const handleDelete = async () => {
     const response = await fetch(
-      `http://localhost:3000/sellers/${props.seller?.id}`,
+      `https://data-visualizer-production.up.railway.app/sellers/${props.seller?.id}`,
       {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json","Origin":"*" },
       }
     );
     const content = await response.json();

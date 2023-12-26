@@ -108,11 +108,14 @@ export function UsersTable() {
     const [user, setUser] = React.useState<User>();
     const [rowSelection, setRowSelection] = React.useState({});
  const habdleUpdateUser = async (user:User,role:string) => {
-   const response = await fetch(`http://localhost:3000/users/${user?.id}`, {
-     method: "PATCH",
-     headers: { "Content-Type": "application/json" },
-     body:JSON.stringify({updateUserDto:{role:role}})
-   });
+   const response = await fetch(
+     `https://data-visualizer-production.up.railway.app/users/${user?.id}`,
+     {
+       method: "PATCH",
+       headers: { "Content-Type": "application/json","Origin":"*" },
+       body: JSON.stringify({ updateUserDto: { role: role } }),
+     }
+   );
    if (response.ok) {
      toast({
        title: "User Role Updated Successfully",
@@ -195,10 +198,13 @@ export function UsersTable() {
   );
 
  const fetchData = async () => {
-   const response = await fetch("http://localhost:3000/users", {
-     method: "GET",
-     headers: { "Content-Type": "application/json" },
-   });
+   const response = await fetch(
+     "https://data-visualizer-production.up.railway.app/users",
+     {
+       method: "GET",
+       headers: { "Content-Type": "application/json","Origin":"*" },
+     }
+   );
 
    const content = await response.json();
    if (content) {
