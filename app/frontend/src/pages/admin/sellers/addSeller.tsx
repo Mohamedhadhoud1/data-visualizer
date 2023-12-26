@@ -48,7 +48,7 @@ export function AddSeller() {
       "https://data-visualizer-production.up.railway.app/sellers/addOne",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Origin": "*" },
         body: JSON.stringify(data),
       }
     );

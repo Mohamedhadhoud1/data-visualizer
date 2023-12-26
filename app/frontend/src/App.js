@@ -52,7 +52,7 @@ const PrivateRoute = ({ children }) => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Origin": "https://data-visualizer-xi.vercel.app",
+            "Origin": "*",
           },
           credentials: "include",
         }
@@ -61,11 +61,11 @@ const PrivateRoute = ({ children }) => {
       if (content.firstName) {
         setUser(content);
         console.log(content);
-      // }else if(content.role==="admin"){
-      //   navigate('/admin')
-      // } else {
-      //   setUser({});
-      //   navigate("/login");
+      }else if(content.role==="admin"){
+        navigate('/admin')
+      } else {
+        setUser({});
+        navigate("/login");
       }
     };
     fetchUser();
@@ -107,7 +107,7 @@ useEffect(() => {
       console.log(content);
     }
   };
-  //fetchUser();
+  fetchUser();
 }, [user?.id]);
 
 const router = createBrowserRouter([

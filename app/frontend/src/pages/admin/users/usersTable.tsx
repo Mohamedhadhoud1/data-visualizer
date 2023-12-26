@@ -109,7 +109,7 @@ export function UsersTable() {
   );
     const [error, setError] = React.useState("");
 
-    const [data, setData] = React.useState<User[]>(tempData);
+    const [data, setData] = React.useState<User[]>([]);
     const [user, setUser] = React.useState<User>();
     const [rowSelection, setRowSelection] = React.useState({});
   //const [globalFilter, setGlobalFilter] = React.useState("");
@@ -267,7 +267,7 @@ React.useEffect(() => {
       `https://data-visualizer-production.up.railway.app/users/${user?.id}`,
       {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Origin": "*" },
       }
     );
       console.log(response);

@@ -14,11 +14,11 @@ import { Sellers } from './sellers/entities/seller.entity';
     UsersModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'bcrvmdwsjhpor42lyxzw-postgresql.services.clever-cloud.com',
-      port: 50013,
-      username: 'utdijkqd1pwmjfb7lseb',
-      password: 'Mpu4unyQqXt7FkcYYQJu4EseUjJKM5',
-      database: 'bcrvmdwsjhpor42lyxzw',
+      host: 'monorail.proxy.rlwy.net',
+      port: 43405,
+      username: 'postgres',
+      password: 'adGbe6C4b3Dg-F5gd3f3-ebBb256-bEg',
+      database: 'railway',
       entities: [User, Data, Sellers],
       synchronize: false,
       extra: {

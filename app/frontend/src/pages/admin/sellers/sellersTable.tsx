@@ -171,7 +171,7 @@ export function SellersTable(props: {
   );
   const [error, setError] = React.useState("");
 
-  const [data, setData] = React.useState<Seller[]>(tempData);
+  const [data, setData] = React.useState<Seller[]>([]);
   //const refreshData = () => setData((old) => makeData(50000));
   const [rowSelection, setRowSelection] = React.useState({});
   const fetchData = async () => {
@@ -180,7 +180,7 @@ export function SellersTable(props: {
       "https://data-visualizer-production.up.railway.app/sellers",
       {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Origin": "*" },
       }
     );
 

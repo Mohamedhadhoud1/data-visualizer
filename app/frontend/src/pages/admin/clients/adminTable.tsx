@@ -304,7 +304,7 @@ React.useEffect(() => {
       `https://data-visualizer-production.up.railway.app/data/${client?.id}`,
       {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Origin": "*" },
       }
     );
       const content = await response.json();

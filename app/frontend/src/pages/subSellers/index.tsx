@@ -13,10 +13,10 @@ function SubSellersData() {
          const fetchData = async () => {
            console.log("jjj");
            const response = await fetch(
-             `https://data-visualizer-production.up.railway.app/data/subInd/test2`,
+             `https://data-visualizer-production.up.railway.app/data/subInd/${user.userName}`,
              {
                method: "GET",
-               headers: { "Content-Type": "application/json" },
+               headers: { "Content-Type": "application/json", "Origin": "*" },
              }
            );
 

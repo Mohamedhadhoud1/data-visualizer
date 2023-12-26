@@ -31,7 +31,7 @@ export function Sitting() {
         `https://data-visualizer-production.up.railway.app/users/${user?.id}`,
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", "Origin": "*" },
           credentials: "include",
           body: JSON.stringify({
             updateUserDto: {

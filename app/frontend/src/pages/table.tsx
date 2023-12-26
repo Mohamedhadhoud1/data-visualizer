@@ -213,8 +213,7 @@ export function ClientsTable() {
     []
   );
 
-  const [data, setData] = React.useState<Person[]>(tempData);
-  const refreshData = () => setData((old) => makeData(50000));
+  const [data, setData] = React.useState<Person[]>([]);
  React.useEffect(() => {
    const fetchData = async () => {
      if (!user?.userName) {
@@ -229,7 +228,7 @@ export function ClientsTable() {
        `https://data-visualizer-production.up.railway.app/data/seller/${user?.userName}`,
        {
          method: "GET",
-         headers: { "Content-Type": "application/json" },
+         headers: { "Content-Type": "application/json", "Origin": "*" },
        }
      );
 

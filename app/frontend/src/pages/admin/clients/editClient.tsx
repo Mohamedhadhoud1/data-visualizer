@@ -63,7 +63,7 @@ export function EditClient() {
       `https://data-visualizer-production.up.railway.app/data/${client?.id}`,
       {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Origin": "*" },
         body: JSON.stringify(data),
       }
     );
