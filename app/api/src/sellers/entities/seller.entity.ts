@@ -4,13 +4,13 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 export class Sellers {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+  @Column({ name: 'mainsellername' })
   mainSellerName: string;
-  @Column()
+  @Column({ name: 'mainsellermail' })
   mainSellerMail: string;
-  @Column()
+  @Column({ name: 'subsellername' })
   subSellerName: string;
-  @Column()
+  @Column({ name: 'subsellermail' })
   subSellerMail: string;
   @Column()
   code: string;

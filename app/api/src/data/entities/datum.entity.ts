@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 export class Data {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+  @Column({ name: 'foldernumber' })
   folderNumber: string;
   @Column()
   seller: string;
@@ -12,18 +12,18 @@ export class Data {
   name: string;
   @Column()
   mail: string;
-  @Column()
+  @Column({ name: 'salesamount' })
   salesAmount: string;
   @Column()
   course: string;
-  @Column()
+  @Column({ name: 'datestartcourse' })
   dateStartCourse: string;
-  @Column()
+  @Column({ name: 'dateendcourse' })
   dateEndCourse: string;
-  @Column()
+  @Column({ name: 'courseacivated' })
   courseAcivated: string;
-  @Column()
+  @Column({ name: 'courselink' })
   courseLink: string;
-  @Column()
+  @Column({ name: 'coursecode' })
   courseCode: string;
 }
