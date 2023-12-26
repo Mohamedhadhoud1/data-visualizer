@@ -8,7 +8,6 @@ import { Button } from "../../../components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,8 +15,7 @@ import {
 } from "../../../components/ui/form";
 import { Input } from "../../../components/ui/input";
 import { toast } from "../../../components/ui/use-toast";
-import { Link, useNavigate } from "react-router-dom";
-import { ModeToggle } from "../../../components/mode-toggle";
+import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { ClientContext } from "../../../context/clientContext";
 
@@ -39,7 +37,6 @@ export function EditClient() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const { client } = useContext(ClientContext);
-  console.log(client, "llll");
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -58,7 +55,6 @@ export function EditClient() {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log(data, client.id, "hhh");
     const response = await fetch(
       `https://data-visualizer-production.up.railway.app/data/${client?.id}`,
       {

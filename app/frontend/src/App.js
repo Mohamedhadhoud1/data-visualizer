@@ -17,7 +17,6 @@ import { ClientsTable } from "./pages/table.tsx";
 import AdminPage from "./pages/admin/clients/adminPage.tsx";
 import Client from "./pages/client.tsx";
 import { Sitting } from "./pages/sitting.tsx";
-import FileUpload from "./pages/fileupload.tsx";
 import { ClientContext } from "./context/clientContext.ts";
 import { SearchContext } from "./context/searchContext.ts";
 import { UserContext } from "./context/userContext.ts";
@@ -27,7 +26,6 @@ import { EditClient } from "./pages/admin/clients/editClient.tsx";
 import { SellersTable } from "./pages/admin/sellers/sellersTable.tsx";
 import { AddSeller } from "./pages/admin/sellers/addSeller.tsx";
 import { EditSeller } from "./pages/admin/sellers/editSeller.tsx";
-import {Seller} from "./interface/seller.ts"
 import { UsersTable } from "./pages/admin/users/usersTable.tsx";
 import SubSellersData from "./pages/subSellers/index";
 const Layout = () => {
@@ -60,7 +58,6 @@ const PrivateRoute = ({ children }) => {
       const content = await response.json();
       if (content.firstName) {
         setUser(content);
-        console.log(content);
       }else if(content.role==="admin"){
         navigate('/admin')
       } else {
@@ -75,11 +72,10 @@ return children;
 
 const Adminroute = ({ children }) => {
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
-  
-  console.log(user,'user')
+  const { user } = useContext(UserContext);
+
   useEffect(()=>{
- if (user && user?.role != "admin") {
+ if (user && user?.role !== "admin") {
    navigate("/");
  }
   },[user?.role])
@@ -104,7 +100,6 @@ useEffect(() => {
     const content = await response.json();
     if (content.firstName) {
       setUser(content);
-      console.log(content);
     }
   };
   fetchUser();
@@ -158,14 +153,6 @@ const router = createBrowserRouter([
           <PrivateRoute>
             <Sitting />
           </PrivateRoute>
-        ),
-      },
-      {
-        path: "/file",
-        element: (
-          // <Adminroute>
-            <FileUpload />
-          // </Adminroute>
         ),
       },
       {

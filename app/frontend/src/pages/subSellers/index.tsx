@@ -11,7 +11,6 @@ function SubSellersData() {
     const {user} = useContext(UserContext);
     useEffect(()=>{
          const fetchData = async () => {
-           console.log("jjj");
            const response = await fetch(
              `https://data-visualizer-production.up.railway.app/data/subInd/${user.userName}`,
              {
@@ -21,9 +20,7 @@ function SubSellersData() {
            );
 
            const content = await response.json();
-           console.log(content, "kkk");
            if (content) {
-             console.log(content, "kkk");
              setData(content);
              toast({
                title: "Data Fetched Successfully",
@@ -37,7 +34,6 @@ function SubSellersData() {
     <div>
       {data ?(
         data.map((group, index) => {
-          console.log(Object.keys(group)[0]);
           
           return (
             <div className="my-8">

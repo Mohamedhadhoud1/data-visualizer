@@ -33,7 +33,6 @@ import {
   rankItem,
   compareItems,
 } from "@tanstack/match-sorter-utils";
-import { makeData, Person } from "../../Table/makeData";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "../../../components/ui/button";
@@ -102,8 +101,6 @@ export function SellersTable(props: {
   setSeller: (seller: Seller) => void,
   seller: Seller | undefined,
 }) {
-  console.log(props)
-  const { client, setClient } = React.useContext(ClientContext);
   const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
   const navigate = useNavigate();
   const rerender = React.useReducer(() => ({}), {})[1];
@@ -111,8 +108,6 @@ export function SellersTable(props: {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  //const [globalFilter, setGlobalFilter] = React.useState("");
-  //console.log(edit);
   const columns = React.useMemo<ColumnDef<Seller, any>[]>(
     () => [
       {
@@ -175,7 +170,6 @@ export function SellersTable(props: {
   //const refreshData = () => setData((old) => makeData(50000));
   const [rowSelection, setRowSelection] = React.useState({});
   const fetchData = async () => {
-    console.log("jjj");
     const response = await fetch(
       "https://data-visualizer-production.up.railway.app/sellers",
       {
@@ -185,15 +179,12 @@ export function SellersTable(props: {
     );
 
     const content = await response.json();
-    console.log(content, "kkk");
     if (content) {
-      console.log(content, "kkk");
       setData(content);
       setError("");
       toast({
         title: "Data Fetched Successfully",
       });
-      //navigate("/admin");
     } else {
       setError(content.message);
     }
@@ -245,9 +236,7 @@ export function SellersTable(props: {
       }
     );
     const content = await response.json();
-    console.log(content, "lll");
     if (content.affected === 1) {
-      console.log(content, "ggggg");
       fetchData();
     }
   };
@@ -409,7 +398,6 @@ export function SellersTable(props: {
             <Select
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(e) => {
-                console.log(e, "e  ");
                 table.setPageSize(Number(e));
               }}
             >

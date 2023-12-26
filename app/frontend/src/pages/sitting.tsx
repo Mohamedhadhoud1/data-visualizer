@@ -44,7 +44,6 @@ export function Sitting() {
       );
 
       const content = await response.json();
-      console.log(content);
       if (content.message === "success") {
         setFirstName(content.firstName);
         setLastName(content.lastName);
@@ -74,7 +73,6 @@ export function Sitting() {
      );
 
      const content = await response.json();
-     console.log(content);
      if (content.message === "success") {
       setError2('');
       toast({
@@ -117,15 +115,6 @@ export function Sitting() {
                 placeholder="Your Last Name"
                 defaultValue={user?.lastName}
                 onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="userName">Username</Label>
-              <Input
-                id="userName"
-                placeholder="Your User Name"
-                defaultValue={user?.userName}
-                onChange={(e) => setUserName(e.target.value)}
               />
             </div>
           </CardContent>

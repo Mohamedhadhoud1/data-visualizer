@@ -28,7 +28,7 @@ const FormSchema = z.object({
     message: "Last Name must be at least 2 characters.",
   }),
   userName: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: "Username must be at least 1 characters.",
   }),
   email: z.string().email("This is not a valid email."),
   password: z.string().min(8, {
@@ -66,7 +66,6 @@ export function Register() {
           email: data.email,
           userName: data.userName,
           password: data.password,
-          role: "admin",
         }),
       }
     );

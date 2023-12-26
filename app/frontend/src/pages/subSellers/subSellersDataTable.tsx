@@ -177,8 +177,6 @@ export function SubSellersDataTable(props:{data:ClientData[]}) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  //const [globalFilter, setGlobalFilter] = React.useState("");
-  //console.log(edit);
   const columns = React.useMemo<ColumnDef<ClientData, any>[]>(
     () => [
       {
@@ -238,7 +236,6 @@ export function SubSellersDataTable(props:{data:ClientData[]}) {
   const [error, setError] = React.useState("");
 
   const [data, setData] = React.useState<ClientData[]>(props?.data);
-  console.log(data,'data')
   const [rowSelection, setRowSelection] = React.useState({});
   
   const table = useReactTable({
@@ -417,7 +414,6 @@ export function SubSellersDataTable(props:{data:ClientData[]}) {
             <Select
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(e) => {
-                console.log(e, "e  ");
                 table.setPageSize(Number(e));
               }}
             >

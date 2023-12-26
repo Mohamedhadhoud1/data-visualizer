@@ -21,11 +21,9 @@ const Home = () => {
   const { client } = useContext(ClientContext);
   const {user} = useContext(UserContext);
   const [data, setData] = useState<ClientData[]>([]);
-  console.log(user, "bla1");
   useEffect(()=>{
     const fetchData = async () => {
       if (!user?.userName) {
-        //console.error("User is undefined or has no userName");
          toast({
            title: "Data Was Not Fetched Successfully",
            variant: "destructive",
@@ -41,9 +39,7 @@ const Home = () => {
       );
 
       const content = await response.json();
-      console.log(content, "kkk");
       if (content.statusCode!==500) {
-        console.log(content, "kkk2");
         setData(content);
         toast({
           title: "Data Fetched Successfully",
@@ -69,7 +65,6 @@ const Home = () => {
     const salesAmount = convertCurrencyStringToNumber(item.salesAmount);
     return sum + salesAmount;
   }, 0);
-  console.log(totalSales,'sale');
   return (
     <>
       <div className="flex sm:flex-row flex-col justify-between sm:justify-around gap-4 sm:mx-2 my-10 mx-2 items-center">

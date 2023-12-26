@@ -8,7 +8,6 @@ import { Button } from "../../../components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,10 +15,8 @@ import {
 } from "../../../components/ui/form";
 import { Input } from "../../../components/ui/input";
 import { toast } from "../../../components/ui/use-toast";
-import { Link, useNavigate } from "react-router-dom";
-import { ModeToggle } from "../../../components/mode-toggle";
-import { useContext, useState } from "react";
-import { ClientContext } from "../../../context/clientContext";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Seller } from "@/interface/seller";
 
 const FormSchema = z.object({
@@ -31,11 +28,8 @@ const FormSchema = z.object({
 });
 
 export function EditSeller(props:{seller:Seller|undefined}) {
-  console.log(props.seller)
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const { client } = useContext(ClientContext);
-  console.log(client, "llll");
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {

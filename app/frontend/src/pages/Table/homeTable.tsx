@@ -33,7 +33,6 @@ import {
   rankItem,
   compareItems,
 } from "@tanstack/match-sorter-utils";
-import { makeData, Person } from "./makeData";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "../../components/ui/button";
@@ -85,86 +84,7 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   // Provide an alphanumeric fallback for when the item ranks are equal
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
-const tempData: Person[] = [
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane2",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-];
+
 export function DataTable(props:{data:ClientData[]}) {
   const { setClient } = React.useContext(ClientContext);
   const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
@@ -175,7 +95,7 @@ export function DataTable(props:{data:ClientData[]}) {
   );
   //const [globalFilter, setGlobalFilter] = React.useState("");
 
-  const columns = React.useMemo<ColumnDef<Person, any>[]>(
+  const columns = React.useMemo<ColumnDef<ClientData, any>[]>(
     () => [
       {
         accessorKey: "name",
@@ -216,8 +136,6 @@ export function DataTable(props:{data:ClientData[]}) {
       table.setPageSize(5);
       setClient(data[0]);
     }, [props.data.length,data.length]);
-  //const refreshData = () => setData((old) => makeData(50000));
-  console.log(data);
   const table = useReactTable({
     data,
     columns,
@@ -387,7 +305,6 @@ export function DataTable(props:{data:ClientData[]}) {
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(e) => {
-              console.log(e, "e  ");
               table.setPageSize(Number(e));
             }}
           >

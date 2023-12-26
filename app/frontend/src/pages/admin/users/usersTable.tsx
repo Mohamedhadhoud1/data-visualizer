@@ -33,8 +33,6 @@ import {
   rankItem,
   compareItems,
 } from "@tanstack/match-sorter-utils";
-import { makeData, Person } from "../../Table/makeData";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
@@ -46,8 +44,6 @@ import {
   TableHeader,
   TableRow,
 } from "../../../components/ui/table";
-import { ClientContext } from "../../../context/clientContext";
-import { redirect, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../../context/searchContext";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
@@ -101,7 +97,6 @@ const tempData: User[] = [
 ];
 export function UsersTable() {
   const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
-  const navigate = useNavigate();
   const rerender = React.useReducer(() => ({}), {})[1];
   const [edit, setEdit] = React.useState<CheckedState>(); 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -112,16 +107,12 @@ export function UsersTable() {
     const [data, setData] = React.useState<User[]>([]);
     const [user, setUser] = React.useState<User>();
     const [rowSelection, setRowSelection] = React.useState({});
-  //const [globalFilter, setGlobalFilter] = React.useState("");
-//console.log(edit);
  const habdleUpdateUser = async (user:User,role:string) => {
-  console.log(role,"role",user);
    const response = await fetch(`http://localhost:3000/users/${user?.id}`, {
      method: "PATCH",
      headers: { "Content-Type": "application/json" },
      body:JSON.stringify({updateUserDto:{role:role}})
    });
-   console.log(response);
    if (response.ok) {
      toast({
        title: "User Role Updated Successfully",
@@ -204,22 +195,18 @@ export function UsersTable() {
   );
 
  const fetchData = async () => {
-   console.log("jjj");
    const response = await fetch("http://localhost:3000/users", {
      method: "GET",
      headers: { "Content-Type": "application/json" },
    });
 
    const content = await response.json();
-   console.log(content, "kkk");
    if (content) {
-     console.log(content, "kkk");
      setData(content);
      setError("");
      toast({
        title: "Users Fetched Successfully",
      });
-     //navigate("/admin");
    } else {
      setError(content.message);
    }
@@ -270,7 +257,6 @@ React.useEffect(() => {
         headers: { "Content-Type": "application/json", "Origin": "*" },
       }
     );
-      console.log(response);
     if (response.ok){
       toast({
         title: "User Deleted Successfully",
@@ -425,7 +411,6 @@ React.useEffect(() => {
             <Select
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(e) => {
-                console.log(e, "e  ");
                 table.setPageSize(Number(e));
               }}
             >

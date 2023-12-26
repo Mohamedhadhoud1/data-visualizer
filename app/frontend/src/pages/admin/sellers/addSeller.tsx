@@ -43,7 +43,6 @@ export function AddSeller() {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log("haha");
     const response = await fetch(
       "https://data-visualizer-production.up.railway.app/sellers/addOne",
       {

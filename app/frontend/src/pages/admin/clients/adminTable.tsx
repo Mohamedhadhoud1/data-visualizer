@@ -33,7 +33,6 @@ import {
   rankItem,
   compareItems,
 } from "@tanstack/match-sorter-utils";
-import { makeData, Person } from "../../Table/makeData";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "../../../components/ui/button";
@@ -52,6 +51,7 @@ import { SearchContext } from "../../../context/searchContext";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { toast } from "../../../components/ui/use-toast";
+import { ClientData } from "../../../interface/ClientData";
 
 declare module "@tanstack/table-core" {
   interface FilterFns {
@@ -88,86 +88,6 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   // Provide an alphanumeric fallback for when the item ranks are equal
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
-const tempData: Person[] = [
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-];
 export function AdminTable() {
   const { client, setClient } = React.useContext(ClientContext);
   const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
@@ -177,9 +97,7 @@ export function AdminTable() {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  //const [globalFilter, setGlobalFilter] = React.useState("");
-//console.log(edit);
-  const columns = React.useMemo<ColumnDef<Person, any>[]>(
+  const columns = React.useMemo<ColumnDef<ClientData, any>[]>(
     () => [
       {
         id: "select",
@@ -237,26 +155,24 @@ export function AdminTable() {
   );
   const [error, setError] = React.useState("");
  
-  const [data, setData] = React.useState<Person[]>(tempData);
-  const refreshData = () => setData((old) => makeData(50000));
+  const [data, setData] = React.useState<ClientData[]>([]);
 const [rowSelection, setRowSelection] = React.useState({});
  const fetchData = async () => {
-   console.log("jjj");
-   const response = await fetch("http://localhost:3000/data", {
-     method: "GET",
-     headers: { "Content-Type": "application/json" },
-   });
+   const response = await fetch(
+     "https://data-visualizer-production.up.railway.app/data",
+     {
+       method: "GET",
+       headers: { "Content-Type": "application/json" },
+     }
+   );
 
    const content = await response.json();
-   console.log(content, "kkk");
    if (content) {
-     console.log(content, "kkk");
      setData(content);
      setError("");
      toast({
        title: "Data Fetched Successfully",
      });
-     //navigate("/admin");
    } else {
      setError(content.message);
    }
@@ -309,7 +225,6 @@ React.useEffect(() => {
     );
       const content = await response.json();
     if (content.affected===1){
-      console.log(content,"ggggg");
       fetchData();
     }
   }
@@ -474,7 +389,6 @@ React.useEffect(() => {
             <Select
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(e) => {
-                console.log(e, "e  ");
                 table.setPageSize(Number(e));
               }}
             >

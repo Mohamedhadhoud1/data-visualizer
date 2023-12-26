@@ -31,7 +31,6 @@ const FormSchema = z.object({
 export function Login() {
   const navigate= useNavigate();
   const [error, setError] = useState("");
-  const {user, setUser} = useContext(UserContext);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -55,7 +54,6 @@ export function Login() {
     );
 
     const content = await response.json();
-    console.log(content);
      if (content.message==='success') {
        navigate('/')
      }else{

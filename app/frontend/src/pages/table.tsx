@@ -33,7 +33,6 @@ import {
   rankItem,
   compareItems,
 } from "@tanstack/match-sorter-utils";
-import { makeData, Person } from "./Table/makeData";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "../components/ui/button";
@@ -51,6 +50,7 @@ import { redirect, useNavigate } from "react-router-dom";
 import { SearchContext } from "../context/searchContext";
 import { toast } from "../components/ui/use-toast";
 import { UserContext } from "../context/userContext";
+import { ClientData } from "../interface/ClientData";
 declare module "@tanstack/table-core" {
   interface FilterFns {
     fuzzy: FilterFn<unknown>;
@@ -86,86 +86,7 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   // Provide an alphanumeric fallback for when the item ranks are equal
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
-const tempData: Person[] = [
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-];
+
 export function ClientsTable() {
   const { setClient } = React.useContext(ClientContext);
   const { user } = React.useContext(UserContext);
@@ -178,7 +99,7 @@ export function ClientsTable() {
   );
   //const [globalFilter, setGlobalFilter] = React.useState("");
 
-  const columns = React.useMemo<ColumnDef<Person, any>[]>(
+  const columns = React.useMemo<ColumnDef<ClientData, any>[]>(
     () => [
       {
         accessorKey: "name",
@@ -213,11 +134,10 @@ export function ClientsTable() {
     []
   );
 
-  const [data, setData] = React.useState<Person[]>([]);
+  const [data, setData] = React.useState<ClientData[]>([]);
  React.useEffect(() => {
    const fetchData = async () => {
      if (!user?.userName) {
-       //console.error("User is undefined or has no userName");
        toast({
          title: "Data Was Not Fetched Successfully",
          variant: "destructive",
@@ -233,9 +153,7 @@ export function ClientsTable() {
      );
 
      const content = await response.json();
-     console.log(content, "kkk");
      if (content.statusCode !== 500) {
-       console.log(content, "kkk2");
        setData(content);
        toast({
          title: "Data Fetched Successfully",
@@ -420,7 +338,6 @@ export function ClientsTable() {
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(e) => {
-              console.log(e, "e  ");
               table.setPageSize(Number(e));
             }}
           >
