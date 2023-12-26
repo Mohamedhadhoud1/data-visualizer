@@ -155,10 +155,6 @@ export function ClientsTable() {
      const content = await response.json();
      if (content.statusCode !== 500) {
        setData(content);
-       toast({
-         title: "Data Fetched Successfully",
-         variant: "success",
-       });
      } else {
        toast({
          title: "Data Was Not Fetched Successfully",

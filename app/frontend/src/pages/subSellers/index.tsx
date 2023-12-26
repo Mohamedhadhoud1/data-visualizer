@@ -22,10 +22,6 @@ function SubSellersData() {
            const content = await response.json();
            if (content) {
              setData(content);
-             toast({
-               title: "Data Fetched Successfully",
-               variant: "success",
-             });
            }
          };
          fetchData();
@@ -34,10 +30,10 @@ function SubSellersData() {
     <div>
       {data ?(
         data.map((group, index) => {
-          
+          console.log(group);
           return (
             <div className="my-8">
-              <p className="text-center text-3xl font-extrabold">{Object.keys(group)[0]}</p>
+              <p className="text-center text-3xl font-extrabold">{Object.keys(group)[1]}</p>
               {//@ts-ignore
               <SubSellersDataTable key={index} data={Object.values(group)[0]} />
               }</div>

@@ -170,9 +170,6 @@ const [rowSelection, setRowSelection] = React.useState({});
    if (content) {
      setData(content);
      setError("");
-     toast({
-       title: "Data Fetched Successfully",
-     });
    } else {
      setError(content.message);
    }

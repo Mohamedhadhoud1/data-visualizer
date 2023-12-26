@@ -210,9 +210,6 @@ export function UsersTable() {
    if (content) {
      setData(content);
      setError("");
-     toast({
-       title: "Users Fetched Successfully",
-     });
    } else {
      setError(content.message);
    }

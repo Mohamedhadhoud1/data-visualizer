@@ -26,7 +26,7 @@ function NavBar() {
   const location = useLocation();
   const { globalFilter, setGlobalFilter } = useContext(SearchContext);
   const { user } = useContext(UserContext);
- 
+  const [open, setOpen] = React.useState(false);
 
    const logOut = async () => {
       await fetch(
@@ -42,7 +42,7 @@ function NavBar() {
     <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-white py-2 shadow-md shadow-black/5 dark:bg-black dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
       <div className="flex w-full flex-row items-center justify-between px-3 gap-5">
         <div className="flex w-1/2 sm:w-1/3 items-center justify-between">
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger>
               <Menu />
             </SheetTrigger>
@@ -53,7 +53,7 @@ function NavBar() {
                   Programme JAK
                 </SheetTitle>
               </SheetHeader>
-              <Link to="/">
+              <Link to="/" onClick={() => setOpen(false)}>
                 <Button
                   variant="ghost"
                   className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
@@ -65,7 +65,7 @@ function NavBar() {
                   Page d'accueil
                 </Button>
               </Link>
-              <Link to="/table">
+              <Link to="/table" onClick={() => setOpen(false)}>
                 <Button
                   variant="ghost"
                   className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
@@ -77,7 +77,7 @@ function NavBar() {
                   Tableau de Bord
                 </Button>
               </Link>
-              <Link to="/clients">
+              <Link to="/clients" onClick={() => setOpen(false)}>
                 <Button
                   variant="ghost"
                   className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
@@ -89,7 +89,7 @@ function NavBar() {
                   Client
                 </Button>
               </Link>
-              <Link to="/sitting">
+              <Link to="/sitting" onClick={() => setOpen(false)}>
                 <Button
                   variant="ghost"
                   className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
@@ -101,7 +101,7 @@ function NavBar() {
                   Settings
                 </Button>
               </Link>
-              <Link to="/subSellersData">
+              <Link to="/subSellersData" onClick={() => setOpen(false)}>
                 <Button
                   variant="ghost"
                   className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
@@ -113,44 +113,47 @@ function NavBar() {
                   code affectée
                 </Button>
               </Link>
-             {user?.role==="admin" && (<><Link to="/admin">
-                <Button
-                  variant="ghost"
-                  className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
-                    location.pathname === "/admin"
-                      ? "dark:bg-white dark:text-black bg-accent"
-                      : null
-                  }`}
-                >
-                  Admin Page
-                </Button>
-              </Link>
-              <Link to="/sellers">
-                <Button
-                  variant="ghost"
-                  className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
-                    location.pathname === "/sellers"
-                      ? "dark:bg-white dark:text-black bg-accent"
-                      : null
-                  }`}
-                >
-                  Sellers
-                </Button>
-              </Link>
-              <Link to="/users">
-                <Button
-                  variant="ghost"
-                  className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
-                    location.pathname === "/users"
-                      ? "dark:bg-white dark:text-black bg-accent"
-                      : null
-                  }`}
-                >
-                  Users
-                </Button>
-              </Link>
-              </>)}
-              <Link to="/login">
+              {user?.role === "admin" && (
+                <>
+                  <Link to="/admin" onClick={() => setOpen(false)}>
+                    <Button
+                      variant="ghost"
+                      className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
+                        location.pathname === "/admin"
+                          ? "dark:bg-white dark:text-black bg-accent"
+                          : null
+                      }`}
+                    >
+                      Admin Page
+                    </Button>
+                  </Link>
+                  <Link to="/sellers" onClick={() => setOpen(false)}>
+                    <Button
+                      variant="ghost"
+                      className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
+                        location.pathname === "/sellers"
+                          ? "dark:bg-white dark:text-black bg-accent"
+                          : null
+                      }`}
+                    >
+                      Sellers
+                    </Button>
+                  </Link>
+                  <Link to="/users" onClick={() => setOpen(false)}>
+                    <Button
+                      variant="ghost"
+                      className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${
+                        location.pathname === "/users"
+                          ? "dark:bg-white dark:text-black bg-accent"
+                          : null
+                      }`}
+                    >
+                      Users
+                    </Button>
+                  </Link>
+                </>
+              )}
+              <Link to="/login" onClick={() => setOpen(false)}>
                 <Button
                   variant="ghost"
                   className={`w-full my-2 dark:hover:bg-white dark:hover:text-black ${

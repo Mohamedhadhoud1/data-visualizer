@@ -60,7 +60,7 @@ export class DataService {
 
     const sellers = [mainSeller, ...subSellers];
     const sellerNames = sellers.map(
-      (seller) => seller.subSellerName || seller.mainSellerName,
+      (seller) => seller.code || seller.mainSellerName,
     );
     return this.dataRepository
       .createQueryBuilder('data')
@@ -83,7 +83,7 @@ export class DataService {
 
     //const sellers = [mainSeller, ...subSellers];
     const sellerNames = subSellers.map(
-      (seller) => seller.subSellerName || seller.mainSellerName,
+      (seller) => seller.code || seller.mainSellerName,
     );
 
     const dataPromises = Promise.all(
@@ -113,7 +113,7 @@ export class DataService {
 
     const sellers = [mainSeller, ...subSellers];
     let sellerNames = sellers.map(
-      (seller) => seller.subSellerName || seller.mainSellerName,
+      (seller) => seller.code || seller.mainSellerName,
     );
     sellerNames = [sellerName, ...sellerNames];
     return this.dataRepository
