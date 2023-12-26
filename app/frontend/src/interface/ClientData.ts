@@ -9,6 +9,6 @@ export type ClientData = {
   dateEndCourse:string
   courseAcivated:string
   courseLink:string
-  courseCode:string
+  //courseCode:string
 
 }

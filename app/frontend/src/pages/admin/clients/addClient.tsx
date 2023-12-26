@@ -31,7 +31,7 @@ const FormSchema = z.object({
   dateEndCourse: z.string(),
   courseAcivated: z.string(),
   courseLink: z.string(),
-  courseCode: z.string(),
+  //courseCode: z.string(),
 });
 
 export function AddClient() {
@@ -50,7 +50,7 @@ export function AddClient() {
       dateEndCourse: "",
       courseAcivated: "",
       courseLink: "",
-      courseCode: "",
+      //courseCode: "",
     },
   });
 
@@ -228,7 +228,7 @@ export function AddClient() {
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="courseCode"
             render={({ field }) => (
@@ -241,7 +241,7 @@ export function AddClient() {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <Button type="submit">Add</Button>
         </form>

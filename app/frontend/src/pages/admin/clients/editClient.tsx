@@ -30,7 +30,7 @@ const FormSchema = z.object({
   dateEndCourse: z.string(),
   courseAcivated: z.string(),
   courseLink: z.string(),
-  courseCode: z.string(),
+  //courseCode: z.string(),
 });
 
 export function EditClient() {
@@ -50,7 +50,7 @@ export function EditClient() {
       dateEndCourse: client?.dateEndCourse,
       courseAcivated: client?.courseAcivated,
       courseLink: client?.courseLink,
-      courseCode: client?.courseCode,
+     // courseCode: client?.courseCode,
     },
   });
 
@@ -229,7 +229,7 @@ export function EditClient() {
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="courseCode"
               render={({ field }) => (
@@ -242,7 +242,7 @@ export function EditClient() {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <Button type="submit">Add</Button>
           </form>

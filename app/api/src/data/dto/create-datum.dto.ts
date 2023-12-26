@@ -9,5 +9,5 @@ export class CreateDatumDto {
   dateEndCourse: string;
   courseAcivated: string;
   courseLink: string;
-  courseCode: string;
+  //courseCode: string;
 }

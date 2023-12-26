@@ -88,88 +88,9 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   // Provide an alphanumeric fallback for when the item ranks are equal
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
-const tempData: ClientData[] = [
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-  {
-    folderNumber: "N° 39412668451",
-    salesAmount: "3,200.00 €",
-    seller: "Amine",
-    name: "BACHIR Ridwane",
-    mail: "Ridwane69310@icloud.com",
-    course: "CREATION D'ENTREPRISE",
-    dateStartCourse: "11/10/2023",
-    dateEndCourse: "25/10/2023",
-    courseAcivated: "OUI",
-    courseLink: "https://app.digiforma.com/r/80Lislhu",
-    courseCode: "test",
-  },
-];
+
 export function SubSellersDataTable(props:{data:ClientData[]}) {
-  const { client, setClient } = React.useContext(ClientContext);
+  const { setClient } = React.useContext(ClientContext);
   const { globalFilter, setGlobalFilter } = React.useContext(SearchContext);
   const navigate = useNavigate();
   const rerender = React.useReducer(() => ({}), {})[1];
