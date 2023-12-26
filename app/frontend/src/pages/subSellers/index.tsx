@@ -33,7 +33,7 @@ function SubSellersData() {
           console.log(data);
           return (
             <div className="my-8">
-              <p className="text-center text-3xl font-extrabold">{Object.keys(group)[1]}</p>
+              <p className="text-center text-3xl font-extrabold">{Object.keys(group)[0]}</p>
               {//@ts-ignore
               <SubSellersDataTable key={index} data={Object.values(group)[0]} />
               }</div>
