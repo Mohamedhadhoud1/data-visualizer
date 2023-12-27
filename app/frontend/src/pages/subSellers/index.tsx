@@ -10,6 +10,7 @@ function SubSellersData() {
     const [data, setData] = useState<MyGroupType[]|undefined>();
     const {user} = useContext(UserContext);
     useEffect(()=>{
+      if(user){
          const fetchData = async () => {
            const response = await fetch(
              `https://data-visualizer-production.up.railway.app/data/subInd/${user?.userName}`,
@@ -24,8 +25,10 @@ function SubSellersData() {
              setData(content);
            }
          };
-         fetchData();
-    },[])
+          fetchData();
+        }
+        
+    },[user])
   return (
     <div>
       {data ?(
