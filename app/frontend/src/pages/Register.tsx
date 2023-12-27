@@ -66,6 +66,7 @@ export function Register() {
           email: data.email,
           userName: data.userName,
           password: data.password,
+          role:"user"
         }),
       }
     );

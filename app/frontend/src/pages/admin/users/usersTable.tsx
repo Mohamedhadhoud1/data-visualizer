@@ -179,8 +179,8 @@ export function UsersTable() {
             <SelectTrigger className="w-[180px]">
               <SelectValue
                 placeholder={
-                  row.original.role.charAt(0).toUpperCase() +
-                  row.original.role.slice(1)
+                  row.original.role?.charAt(0).toUpperCase() +
+                  row.original.role?.slice(1)
                 }
               />
             </SelectTrigger>
