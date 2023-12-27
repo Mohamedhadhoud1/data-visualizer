@@ -78,7 +78,7 @@ const Home = () => {
         <Card className="sm:w-1/4 h-max w-4/5">
           <CardContent className="flex flex-row items-center justify-between w-full p-3">
             <div>
-              <p className="font-extrabold text-3xl">{'€ '+totalSales}</p>
+              <p className="font-extrabold text-3xl">{totalSales+' €'}</p>
               <p>Revenu Total</p>
             </div>
             <Button className="h-min cursor-default pointer-events-none">
@@ -107,7 +107,7 @@ const Home = () => {
           <div className="flex flex-col w-4/5 sm:w-1/3">
             <p className="text-center ">Montant formation </p>
             <Button className="cursor-default text-lg sm:mt-2 sm:mb-0 mb-3 pointer-events-none">
-              {client?.salesAmount}
+              {client?.salesAmount + " €"}
             </Button>
           </div>
           <div className="flex flex-col w-4/5 sm:w-1/3">

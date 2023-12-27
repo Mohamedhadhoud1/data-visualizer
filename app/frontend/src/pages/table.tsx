@@ -118,6 +118,7 @@ export function ClientsTable() {
       {
         accessorKey: "salesAmount",
         header: () => <span>Montant de vente</span>,
+        cell: (info) => info.getValue()+" €",
         footer: (props) => props.column.id,
       },
       {
@@ -254,13 +255,15 @@ export function ClientsTable() {
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (
+                   
                     <TableCell key={cell.id}>
-                      {flexRender(
+                      {
+                      flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
                       )}
                     </TableCell>
-                  ))}
+                      ))}
                 </TableRow>
               ))
             ) : (

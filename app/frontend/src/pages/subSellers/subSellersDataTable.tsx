@@ -139,6 +139,7 @@ export function SubSellersDataTable(props:{data:ClientData[]}) {
       {
         accessorKey: "salesAmount",
         header: () => <span>Montant de vente</span>,
+        cell: (info) => info.getValue() + " €",
         footer: (props) => props.column.id,
       },
       {
