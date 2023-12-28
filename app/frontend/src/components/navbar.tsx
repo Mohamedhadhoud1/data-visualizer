@@ -110,7 +110,7 @@ function NavBar() {
                       : null
                   }`}
                 >
-                  code affectée
+                  Code d'affiliation
                 </Button>
               </Link>
               {user?.role === "admin" && (
@@ -163,7 +163,7 @@ function NavBar() {
                   }`}
                   onClick={logOut}
                 >
-                  Log Out
+                  Deconnexion
                 </Button>
               </Link>
             </SheetContent>
@@ -214,12 +214,12 @@ function NavBar() {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link to="/subSellersData" className="w-full">
-                  code affectée
+                  Code d'affiliation
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link to="/login" className="w-full" onClick={logOut}>
-                  Log Out
+                  Deconnexion
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>

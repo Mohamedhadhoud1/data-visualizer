@@ -88,7 +88,7 @@ const Home = () => {
         </Card>
       </div>
 
-      <Card className="sm:w-1/2 w-4/5 mx-auto mb-10">
+      <Card className="sm:w-1/2 w-4/5 mx-auto mb-10" id="client">
         <CardHeader>
           <CardTitle>Statut Client</CardTitle>
         </CardHeader>

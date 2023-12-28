@@ -223,6 +223,7 @@ export function DataTable(props:{data:ClientData[]}) {
                   className="cursor-pointer"
                   onClick={() => {
                     setClient(row.original);
+                    window.scrollTo({ top: 150, left: 0, behavior: "smooth" });
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (

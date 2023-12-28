@@ -21,14 +21,6 @@ function Client() {
           <div className="flex flex-wrap flex-shrink-0 gap-10 m-5 mb-20 sm:flex-row flex-col">
             <Card className="text-center sm:w-[calc(50%-1.5rem)]">
               <CardHeader>
-                <CardTitle>Mail</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>{client?.mail}</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center sm:w-[calc(50%-1.5rem)]">
-              <CardHeader>
                 <CardTitle>Montant de vente</CardTitle>
               </CardHeader>
               <CardContent>
@@ -43,14 +35,7 @@ function Client() {
                 <p>{client?.course}</p>
               </CardContent>
             </Card>
-            <Card className="text-center sm:w-1/2 sm:w-[calc(50%-1.5rem)]">
-              <CardHeader>
-                <CardTitle>Formation affectée</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>{client?.courseAcivated}</p>
-              </CardContent>
-            </Card>
+
             <Card className="text-center sm:w-[calc(50%-1.5rem)]">
               <CardHeader>
                 <CardTitle>Date de debut</CardTitle>
@@ -67,7 +52,15 @@ function Client() {
                 <p>{client?.dateEndCourse}</p>
               </CardContent>
             </Card>
-            <Card className="text-center w-full">
+            <Card className="text-center sm:w-1/2 sm:w-[calc(50%-1.5rem)]">
+              <CardHeader>
+                <CardTitle>Formation affectée</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>{client?.courseAcivated}</p>
+              </CardContent>
+            </Card>
+            <Card className="text-center sm:w-1/2 sm:w-[calc(50%-1.5rem)]">
               <CardHeader>
                 <CardTitle>LIEN DIGIFORMA</CardTitle>
               </CardHeader>

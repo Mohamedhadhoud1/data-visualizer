@@ -62,7 +62,6 @@ export function Sitting() {
        `https://data-visualizer-production.up.railway.app/users/${user?.id}`,
        {
          method: "PATCH",
-         mode: "no-cors",
          headers: { "Content-Type": "application/json" },
          credentials: "include",
          body: JSON.stringify({
