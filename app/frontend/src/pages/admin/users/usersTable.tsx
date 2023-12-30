@@ -138,7 +138,7 @@ export function UsersTable() {
                 }
               });
               row.toggleSelected(!!value);
-              //setUser(row.original);
+              setUser(row.original);
               setEdit(!!value);
             }}
             aria-label="Select row"
@@ -175,7 +175,7 @@ export function UsersTable() {
         id: "role",
         header: "Role",
         cell: ({ row }) => (
-          <Select onValueChange={(e)=>habdleUpdateUser(row.original,e)}>
+          <Select onValueChange={(e)=>{habdleUpdateUser(row.original,e);}}>
             <SelectTrigger className="w-[180px]">
               <SelectValue
                 placeholder={
